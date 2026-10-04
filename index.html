@@ -1,0 +1,1712 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mind Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one-column app shell (sticky top bar, floating tab bar, full-screen game stage).
+   Dark-first twilight garden with bright pastel game tiles; the light theme is a pale dawn version. */
+:root{
+  --bg:#14102b; --bg-2:#1b1638; --surface:#221c47; --surface-2:#2e2762;
+  --line:rgba(255,255,255,.1); --bar:rgba(20,16,43,.92);
+  --ink:#f4f0ff; --ink-dim:#aaa3d6;
+  --bloom:#ff8fb1; --leaf:#5fe3b4; --sun:#ffd166; --sun-ink:#ffd166; --sky:#7cc4ff; --lav:#b9a5ff; --flame:#ff9a5c;
+  --t-sky:#8fd0ff; --t-sun:#ffd166; --t-leaf:#6fe8bd; --t-bloom:#ff9db9; --t-lav:#c4b3ff; --on-tile:#1d1340;
+  --btn-bg:#ff8fb1; --btn-fg:#33102a; --btn-edge:#c94f7c;
+  --ok-bg:rgba(95,227,180,.16); --no-bg:rgba(255,143,177,.16);
+  --soil:#54407a; --shadow:0 14px 40px rgba(0,0,0,.4);
+  --glow-a:rgba(255,143,177,.13); --glow-b:rgba(95,227,180,.09);
+  --font-display:'Fredoka',ui-rounded,'Nunito',system-ui,sans-serif;
+  --font-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f3f5eb; --bg-2:#e8eddc; --surface:#fffef9; --surface-2:#e8f0df;
+    --line:rgba(34,66,52,.14); --bar:rgba(243,245,235,.94);
+    --ink:#20352c; --ink-dim:#5b7164;
+    --bloom:#d64f61; --leaf:#25835e; --sun:#e6a82e; --sun-ink:#a66e0d; --sky:#347ea2; --lav:#7664a8; --flame:#e26c3b;
+    --btn-bg:#d64f61; --btn-fg:#ffffff; --btn-edge:#a53246;
+    --ok-bg:rgba(37,131,94,.13); --no-bg:rgba(214,79,97,.12);
+    --soil:#a89278; --shadow:0 14px 40px rgba(32,53,44,.14);
+    --glow-a:rgba(214,79,97,.09); --glow-b:rgba(37,131,94,.09);
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f3f5eb; --bg-2:#e8eddc; --surface:#fffef9; --surface-2:#e8f0df;
+  --line:rgba(34,66,52,.14); --bar:rgba(243,245,235,.94);
+  --ink:#20352c; --ink-dim:#5b7164;
+  --bloom:#d64f61; --leaf:#25835e; --sun:#e6a82e; --sun-ink:#a66e0d; --sky:#347ea2; --lav:#7664a8; --flame:#e26c3b;
+  --btn-bg:#d64f61; --btn-fg:#ffffff; --btn-edge:#a53246;
+  --ok-bg:rgba(37,131,94,.13); --no-bg:rgba(214,79,97,.12);
+  --soil:#a89278; --shadow:0 14px 40px rgba(32,53,44,.14);
+  --glow-a:rgba(214,79,97,.09); --glow-b:rgba(37,131,94,.09);
+  color-scheme:light;
+}
+:root[data-theme="garden"]{
+  --bg:#eaf2e5;--bg-2:#dcebd8;--surface:#fbfff7;--surface-2:#dcebd8;--line:rgba(27,80,54,.17);--bar:rgba(234,242,229,.94);
+  --ink:#193d2b;--ink-dim:#557461;--bloom:#cb4c67;--leaf:#26794f;--sun:#d99a24;--sun-ink:#98600c;--sky:#397e9a;--lav:#697dba;--flame:#d96235;
+  --btn-bg:#26794f;--btn-fg:#fff;--btn-edge:#185a3a;--ok-bg:rgba(38,121,79,.13);--no-bg:rgba(203,76,103,.12);--soil:#9b8060;--shadow:0 14px 40px rgba(25,61,43,.16);--glow-a:rgba(203,76,103,.1);--glow-b:rgba(38,121,79,.12);color-scheme:light;
+}
+:root[data-theme="sunrise"]{
+  --bg:#fff3e6;--bg-2:#fce1cf;--surface:#fffaf4;--surface-2:#f7e0d3;--line:rgba(103,61,46,.15);--bar:rgba(255,243,230,.94);
+  --ink:#4b3029;--ink-dim:#80645a;--bloom:#d55266;--leaf:#347b66;--sun:#e99a33;--sun-ink:#a45c18;--sky:#5688a0;--lav:#856895;--flame:#df6638;
+  --btn-bg:#d55266;--btn-fg:#fff;--btn-edge:#a5364d;--ok-bg:rgba(52,123,102,.13);--no-bg:rgba(213,82,102,.12);--soil:#a48770;--shadow:0 14px 40px rgba(75,48,41,.15);--glow-a:rgba(233,154,51,.12);--glow-b:rgba(52,123,102,.09);color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.5 var(--font-body);-webkit-font-smoothing:antialiased;min-height:100%}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(60% 38% at 88% -4%,var(--glow-a),transparent 72%),radial-gradient(50% 34% at 0% 102%,var(--glow-b),transparent 72%)}
+h1,h2,h3{font-family:var(--font-display);margin:0;font-weight:600;line-height:1.15;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+svg{display:block}
+:focus-visible{outline:3px solid var(--lav);outline-offset:2px}
+.dim{color:var(--ink-dim)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+#app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding-inline:16px;padding-bottom:128px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-inline:-16px;padding:12px 16px 10px;background:var(--bg)}
+.brand{display:flex;align-items:center;gap:10px;font:600 1.3rem var(--font-display);min-width:0}
+.brand svg{width:32px;height:32px;flex:none}
+.hud{display:flex;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);
+  font:500 .95rem var(--font-display);font-variant-numeric:tabular-nums}
+.lang-toggle{border:1px solid var(--line);background:var(--surface);color:var(--ink);min-width:48px;justify-content:center;padding-inline:10px}
+.pill svg{width:18px;height:18px;color:var(--sun-ink)}
+.pill.bump{animation:bump .4s ease}
+.xp{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.xp i{display:block;height:100%;width:0;background:var(--leaf);border-radius:99px;transition:width .5s ease}
+
+.view{display:grid;gap:26px;padding-top:16px;animation:viewin .35s ease both}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.sec-h h2{font-size:1.2rem}
+.link{background:none;border:0;padding:4px 0;color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px;font-size:.9rem}
+.hello{font-size:clamp(1.9rem,6.5vw,2.6rem)}
+.hello-sub{color:var(--ink-dim);margin-top:8px;max-width:46ch}
+.home-hero{position:relative;overflow:hidden;padding:22px 20px 24px;border:1px solid var(--line);border-radius:24px;
+  background:linear-gradient(120deg,var(--surface) 0%,var(--surface-2) 72%,color-mix(in srgb,var(--t-leaf) 20%,var(--surface)) 100%);
+  display:grid;grid-template-columns:minmax(0,1fr) 200px;align-items:center;gap:8px;min-height:256px}
+.home-hero-copy{position:relative;z-index:2;min-width:0}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;color:var(--leaf);font-size:.75rem;font-weight:900;text-transform:uppercase}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--bloom);box-shadow:0 0 0 4px var(--no-bg)}
+.home-hero .hello-sub{max-width:42ch}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:18px}
+.buddy-scene{position:relative;display:grid;justify-items:center;align-content:center;min-height:210px}
+.buddy-line{position:relative;z-index:2;max-width:188px;padding:8px 12px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--ink);font-size:.78rem;font-weight:800;line-height:1.25;text-align:center;box-shadow:0 4px 12px rgba(20,40,30,.08)}
+.buddy-line::after{content:"";position:absolute;left:calc(50% - 6px);bottom:-6px;width:10px;height:10px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.bloom-buddy{position:relative;z-index:1;width:190px;height:170px;margin-top:4px;padding:0;border:0;background:none;display:grid;place-items:center;animation:buddy-bob 3.8s ease-in-out infinite}
+.bloom-buddy svg{width:100%;height:100%;overflow:visible}
+.buddy-eye{transform-box:fill-box;transform-origin:center;animation:buddy-blink 5.4s ease-in-out infinite}
+.buddy-arm{transform-box:fill-box;transform-origin:top center;animation:buddy-wave 3.2s ease-in-out infinite}
+.buddy-scene.celebrate .bloom-buddy{animation:buddy-cheer .8s cubic-bezier(.2,1.5,.4,1) 2}
+.buddy-butterfly{position:absolute;top:44%;right:2%;width:46px;height:42px;animation:butterfly-float 4.6s ease-in-out infinite}
+.buddy-butterfly svg{width:100%;height:100%;overflow:visible}
+.butterfly-wing{transform-box:fill-box;transform-origin:center;animation:wing-flutter .38s ease-in-out infinite alternate}
+.butterfly-wing.right{animation-delay:.12s}
+.buddy-leaf{position:absolute;width:16px;height:9px;border-radius:100% 0 100% 0;background:var(--leaf);opacity:.6;animation:leaf-drift 4.2s ease-in-out infinite}
+.buddy-leaf.one{left:8%;top:48%;transform:rotate(-32deg)}
+.buddy-leaf.two{right:10%;top:28%;background:var(--bloom);animation-delay:-1.6s;transform:rotate(22deg)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;
+  background:var(--btn-bg);color:var(--btn-fg);font:600 1rem var(--font-display);box-shadow:0 5px 0 var(--btn-edge);
+  transition:transform .1s,box-shadow .1s;margin-bottom:5px}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--btn-edge)}
+.btn svg{width:20px;height:20px}
+.btn.big{padding:16px 34px;font-size:1.15rem}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none;padding:10px 18px;margin-bottom:0}
+.btn.ghost:active{transform:scale(.97)}
+.btn.small{padding:8px 16px;font-size:.9rem;box-shadow:0 3px 0 var(--btn-edge);margin-bottom:3px}
+.btn[disabled]{opacity:.45;box-shadow:none;transform:none;cursor:not-allowed}
+.iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0}
+.iconbtn svg{width:20px;height:20px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px}
+.streak{display:grid;gap:16px}
+.streak-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.flame{width:54px;height:54px;border-radius:18px;background:var(--surface-2);display:grid;place-items:center;color:var(--flame)}
+.flame svg{width:30px;height:30px}
+.flame.live svg{fill:currentColor}
+.big-n{font:600 2rem/1 var(--font-display);font-variant-numeric:tabular-nums}
+.rest{margin-left:auto;display:grid;gap:4px;justify-items:end;font-size:.78rem;color:var(--ink-dim)}
+.rest div{display:flex;gap:6px}
+.rest i{width:14px;height:14px;border-radius:50%;border:2px solid var(--lav)}
+.rest i.on{background:var(--lav)}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{display:grid;justify-items:center;gap:6px;font-size:.75rem;color:var(--ink-dim);font-weight:700}
+.day i{width:100%;max-width:38px;aspect-ratio:1;border-radius:50%;background:var(--surface-2);display:block}
+.day.on i{background:var(--leaf)}
+.day.today i{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--lav)}
+
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mood{border:0;border-radius:18px;background:var(--tc);color:var(--on-tile);padding:12px 4px 10px;display:grid;justify-items:center;gap:6px;
+  font:700 .72rem var(--font-body);transition:transform .12s;animation:tile-enter .42s cubic-bezier(.2,.8,.2,1) both}
+.mood:nth-child(2){animation-delay:.05s}.mood:nth-child(3){animation-delay:.1s}.mood:nth-child(4){animation-delay:.15s}.mood:nth-child(5){animation-delay:.2s}
+.mood:active{transform:scale(.94)}
+.mood .face{width:32px;height:32px}
+.rec{border-radius:24px;background:var(--tc);color:var(--on-tile);padding:18px;display:grid;gap:14px}
+.rec p{font-weight:700;font-size:1.05rem;line-height:1.35}
+.rec-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.rec .link{color:var(--on-tile);opacity:.8}
+.rec .btn{background:var(--on-tile);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.3)}
+
+.quests{display:grid;gap:10px}
+.quest{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;animation:tile-enter .42s cubic-bezier(.2,.8,.2,1) both}
+.quest-t{font-weight:700}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--leaf);border-radius:99px;transition:width .4s}
+.quest-s{font-size:.8rem;color:var(--ink-dim);margin-top:4px}
+.done-mark{display:inline-flex;align-items:center;gap:4px;color:var(--leaf);font-weight:800;font-size:.9rem}
+.done-mark svg{width:18px;height:18px}
+.chest{display:flex;align-items:center;gap:14px}
+.gift{width:56px;height:56px;border-radius:18px;background:var(--t-sun);color:var(--on-tile);display:grid;place-items:center;flex:none}
+.gift svg{width:30px;height:30px}
+.chest.ready .gift{animation:wiggle 1.4s ease-in-out infinite}
+.chest-t{flex:1;min-width:0}
+.chest-t b{display:block;font:600 1.05rem var(--font-display)}
+
+.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.gcard{position:relative;overflow:hidden;text-align:left;border:0;border-radius:26px;padding:20px;min-height:176px;background:var(--tc);color:var(--on-tile);
+  display:grid;align-content:space-between;gap:16px;transition:transform .15s;animation:tile-enter .5s cubic-bezier(.2,.8,.2,1) both}
+.gcard:nth-child(2){animation-delay:.06s}.gcard:nth-child(3){animation-delay:.12s}.gcard:nth-child(4){animation-delay:.18s}.gcard:nth-child(5){animation-delay:.24s}
+.gcard:hover{transform:translateY(-3px)}
+.gcard:active{transform:scale(.98)}
+.gcard .ghost-ic{position:absolute;right:-14px;top:-14px;width:120px;height:120px;opacity:.16;transform:rotate(-12deg)}
+.gcard .gic{width:46px;height:46px;border-radius:15px;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.gcard .gic svg{width:26px;height:26px}
+.gcard h3{font-size:1.4rem;margin-bottom:4px}
+.gcard p{font-size:.92rem;line-height:1.35;font-weight:600;opacity:.85;max-width:30ch}
+.gmeta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-block;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.55);color:var(--on-tile);font-size:.75rem;font-weight:800;letter-spacing:.03em}
+.intro .tag,.wmeta .tag{background:var(--tc);}
+
+.garden-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.plots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.plot{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:22px;padding:6px 6px 36px;aspect-ratio:1/1.12;display:grid;place-items:center;transition:transform .15s}
+.plot:hover{transform:translateY(-2px)}
+.plot:active{transform:scale(.97)}
+.plot svg{width:100%;height:100%;overflow:visible}
+.plot-tag{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);white-space:nowrap;padding:3px 10px;border-radius:99px;background:var(--surface-2);font-size:.72rem;font-weight:800;color:var(--ink-dim)}
+.plot.bloom .plot-tag{background:var(--ok-bg);color:var(--leaf)}
+.plot.pop svg{animation:grow .7s cubic-bezier(.2,1.6,.4,1)}
+.sway{transform-origin:50px 86px;animation:sway 4.5s ease-in-out infinite}
+.spcs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.spc{display:grid;justify-items:center;gap:2px;font-size:.78rem;font-weight:700;text-align:center;padding:8px 4px;border-radius:18px;background:var(--surface)}
+.spc svg{width:64px;height:64px}
+.spc:not(.on) svg{filter:grayscale(1) brightness(.6);opacity:.35}
+.spc:not(.on) span{color:var(--ink-dim)}
+
+.profile{display:grid;gap:14px}
+.profile-row{display:flex;align-items:center;gap:14px}
+.profile-details{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(120px,.8fr);gap:10px;flex:1;min-width:0}
+.profile-field{display:grid;gap:5px;color:var(--ink-dim);font-size:.78rem;font-weight:800}
+.avatar{width:64px;height:64px;border-radius:22px;background:var(--t-leaf);color:var(--on-tile);display:grid;place-items:center;font:600 1.8rem var(--font-display);flex:none}
+.field-in{width:100%;min-width:0;font:600 1.1rem var(--font-display);color:var(--ink);background:var(--surface-2);border:2px solid transparent;border-radius:14px;padding:10px 14px}
+.field-in::placeholder{color:var(--ink-dim);opacity:.8}
+.field-in.select{font:700 .95rem var(--font-body);padding:11px 10px}
+.feedback-text{min-height:110px;resize:vertical;font:600 .95rem/1.5 var(--font-body)}
+.feedback-box{display:grid;gap:14px}
+.feedback-box form{display:grid;gap:10px}
+.feedback-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.feedback-list{display:grid;gap:8px}
+.feedback-entry{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.feedback-entry p{margin:4px 0;overflow-wrap:anywhere}
+.field-in:focus{border-color:var(--lav);outline:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px;display:grid;gap:2px}
+.stat b{font:600 1.5rem var(--font-display);font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--ink-dim);font-weight:700}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{display:grid;justify-items:center;gap:6px;font-size:.75rem;font-weight:700;color:var(--ink-dim)}
+.wd i{width:100%;max-width:38px;aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);display:block}
+.wd i.has{border:0;background:var(--tc)}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.ach{display:flex;gap:12px;align-items:center;padding:12px;border-radius:18px;background:var(--surface);border:1px solid var(--line);opacity:.55}
+.ach.on{opacity:1}
+.ach .ai{width:40px;height:40px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;flex:none}
+.ach .ai svg{width:20px;height:20px}
+.ach.on .ai{background:var(--t-sun);color:var(--on-tile)}
+.ach b{display:block;font:600 .95rem var(--font-display)}
+.ach span{font-size:.78rem;color:var(--ink-dim);line-height:1.25;display:block}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:6px 0}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:99px;padding:4px;gap:2px}
+.seg button{border:0;background:none;border-radius:99px;padding:6px 14px;font-weight:700;font-size:.88rem;color:var(--ink-dim)}
+.seg button.on{background:var(--btn-bg);color:var(--btn-fg)}
+.note{font-size:.82rem;color:var(--ink-dim)}
+
+.tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:30;width:min(100%,540px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;
+  padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bar);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.tab{border:0;background:none;display:grid;justify-items:center;gap:2px;padding:4px 0;font:700 .72rem var(--font-body);color:var(--ink-dim)}
+.tab .ti{width:52px;height:30px;border-radius:99px;display:grid;place-items:center;transition:background .2s}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--ink)}
+.tab.on .ti{background:var(--surface-2);color:var(--leaf)}
+
+.guide-launch{position:fixed;right:max(18px,calc((100vw - 900px)/2 + 18px));bottom:calc(94px + env(safe-area-inset-bottom,0px));z-index:35;width:54px;height:54px;border:0;border-radius:19px;background:var(--leaf);color:#fff;box-shadow:0 7px 20px rgba(20,40,30,.24);display:grid;place-items:center}
+.guide-launch svg{width:26px;height:26px}
+.guide-panel{position:fixed;right:max(12px,calc((100vw - 900px)/2 + 12px));bottom:calc(158px + env(safe-area-inset-bottom,0px));z-index:36;width:min(370px,calc(100vw - 24px));height:min(520px,calc(100dvh - 190px));min-height:320px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.guide-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.guide-avatar{width:38px;height:38px;flex:none;border-radius:14px;display:grid;place-items:center;background:var(--surface-2);color:var(--leaf)}
+.guide-avatar svg{width:22px;height:22px}
+.guide-title{min-width:0;flex:1}
+.guide-title b{display:block;font:600 1rem var(--font-display)}
+.guide-title span{font-size:.75rem;color:var(--ink-dim)}
+.guide-close{width:36px;height:36px}
+.guide-log{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;overflow:auto}
+.guide-msg{max-width:90%;padding:10px 13px;border-radius:16px;background:var(--surface-2);font-size:.9rem;line-height:1.4;white-space:pre-wrap}
+.guide-msg.user{align-self:flex-end;background:var(--leaf);color:#fff}
+.guide-actions{display:flex;flex-wrap:wrap;gap:6px}
+.guide-actions button{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:var(--surface);font-size:.78rem;font-weight:800}
+.guide-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.guide-form input{min-width:0;flex:1;border:1px solid var(--line);border-radius:13px;background:var(--bg);color:var(--ink);padding:10px 12px;font:600 .9rem var(--font-body)}
+.guide-form button{width:42px;height:42px;border:0;border-radius:13px;background:var(--btn-bg);color:var(--btn-fg);display:grid;place-items:center}
+.guide-form svg{width:20px;height:20px}
+
+/* game stage */
+.stage{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.stage-in{width:100%;max-width:620px;margin:0 auto;padding:12px 16px 4px;display:grid;gap:12px}
+.stage-top{display:flex;align-items:center;gap:12px}
+.stage-top h2{font-size:1.2rem}
+.stage-body{flex:1;min-height:0;overflow:auto;width:100%;max-width:620px;margin:0 auto;padding:12px 16px 28px;display:flex;flex-direction:column;gap:16px}
+.intro{margin:auto 0;display:grid;justify-items:center;text-align:center;gap:16px}
+.intro-art{width:128px;height:128px;border-radius:40px;background:var(--tc);color:var(--on-tile);display:grid;place-items:center;animation:intro-pop .6s cubic-bezier(.2,1.35,.4,1) both}
+.intro-art svg{width:60px;height:60px}
+.intro h2{font-size:2.1rem}
+.intro p{color:var(--ink-dim);max-width:38ch}
+.intro-tags{display:flex;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{border:2px solid var(--line);background:none;border-radius:99px;padding:6px 14px;font-weight:700;font-size:.85rem;color:var(--ink-dim)}
+.chip.on{border-color:var(--t-sky);background:var(--t-sky);color:var(--on-tile)}
+
+.qmeta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.qmeta .tag{background:var(--t-sky)}
+.combo{font:600 .95rem var(--font-display);color:var(--sun-ink);min-height:1.4em}
+.qtext{font:600 clamp(1.25rem,4.6vw,1.6rem)/1.25 var(--font-display);text-wrap:balance}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:18px;padding:14px 16px;font-weight:700;line-height:1.3;transition:transform .1s,border-color .15s}
+.opt:hover{border-color:var(--sky)}
+.opt:active{transform:scale(.985)}
+.opt.ok{background:var(--ok-bg);border-color:var(--leaf)}
+.opt.no{background:var(--no-bg);border-color:var(--bloom)}
+.opt.dim{opacity:.45}
+.opt.gone{display:none}
+.fb{background:var(--surface);border-radius:18px;padding:14px 16px;display:grid;gap:12px}
+.fb p{font-size:.95rem}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mcard{height:108px;padding:0;border:0;background:none;perspective:700px}
+.mi{position:relative;display:block;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.mcard.up .mi,.mcard.done .mi{transform:rotateY(180deg)}
+.mf,.mb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;display:grid;place-items:center;padding:8px;text-align:center}
+.mf{background:var(--t-sun);color:var(--on-tile)}
+.mf svg{width:34px;height:34px;opacity:.7}
+.mb{transform:rotateY(180deg);background:var(--surface-2);border:2px solid var(--line);font-size:.8rem;font-weight:700;line-height:1.2}
+.mcard.term .mb{font:600 .95rem/1.15 var(--font-display);border-color:var(--t-sky)}
+.mcard.done .mb{background:var(--ok-bg);border-color:var(--leaf)}
+.mstat{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}
+
+.wmeta{display:flex;justify-content:space-between;align-items:center}
+.wmeta .tag{background:var(--t-leaf)}
+.clue{font:600 1.25rem/1.3 var(--font-display);text-align:center;text-wrap:balance;padding-top:6px}
+.slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+.slot{width:clamp(32px,9.5vw,46px);height:clamp(40px,11.5vw,54px);border-radius:12px;background:var(--surface);border:2px dashed var(--line);display:grid;place-items:center;
+  font:600 1.45rem var(--font-display);padding:0}
+.slot.filled{border-style:solid;border-color:var(--leaf)}
+.slot.good{background:var(--ok-bg)}
+.wmsg{text-align:center;min-height:1.5em;font-weight:700;color:var(--ink-dim)}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tile{width:clamp(38px,11vw,52px);height:clamp(44px,12.5vw,58px);border:0;border-radius:14px;background:var(--t-leaf);color:var(--on-tile);font:600 1.4rem var(--font-display);
+  box-shadow:0 4px 0 rgba(0,0,0,.25);padding:0;margin-bottom:4px;transition:transform .08s}
+.tile:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.tile[disabled]{opacity:.2;box-shadow:none}
+.wbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+.shake{animation:shake .4s}
+
+.pophud{display:flex;justify-content:space-between;align-items:center;font:600 1.1rem var(--font-display);font-variant-numeric:tabular-nums}
+.field{position:relative;flex:1;min-height:380px;overflow:hidden;border-radius:26px;background:var(--surface);border:1px solid var(--line);touch-action:manipulation}
+.bub{position:absolute;bottom:-140px;border:0;padding:0;background:none;animation:rise var(--dur) linear forwards;cursor:pointer}
+.bub-in{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.8),var(--c) 58%);
+  color:var(--on-tile);font:800 .72rem/1.15 var(--font-body);display:grid;place-items:center;text-align:center;padding:12px}
+.bub.popped{animation-play-state:paused;pointer-events:none}
+.bub.popped .bub-in{animation:pop .3s ease-out forwards}
+.sp{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:var(--c);animation:spark .45s ease-out forwards}
+.field-hint{position:absolute;inset:auto 0 14px 0;text-align:center;font-size:.82rem;color:var(--ink-dim);pointer-events:none}
+
+.orb-wrap{flex:1;min-height:340px;display:grid;place-items:center;position:relative}
+.orb{width:min(72vw,290px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),var(--t-lav) 62%);
+  box-shadow:0 0 90px rgba(185,165,255,.45);transition-property:transform,opacity;transition-timing-function:ease-in-out;transform:scale(.55);opacity:.6}
+.orb-label{position:absolute;inset:0;display:grid;place-items:center;font:600 1.6rem var(--font-display);color:var(--on-tile);pointer-events:none;text-align:center;padding:0 24px}
+.orb-count{text-align:center;color:var(--ink-dim);font-weight:700}
+
+.result{margin:auto 0;display:grid;justify-items:center;text-align:center;gap:14px}
+.result .big{font:600 4.2rem/1 var(--font-display);color:var(--tc);font-variant-numeric:tabular-nums;animation:score-pop .65s cubic-bezier(.2,1.4,.4,1) both}
+.result .rl{font:600 1.1rem var(--font-display);color:var(--ink-dim)}
+.result p{max-width:36ch}
+.rows{display:grid;gap:8px;width:100%;max-width:360px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;background:var(--surface);border-radius:14px;font-weight:700}
+.row b{font-family:var(--font-display);font-variant-numeric:tabular-nums}
+.rbtns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:6px}
+
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(10,6,28,.62)}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:26px 22px;max-width:420px;width:100%;box-shadow:var(--shadow);display:grid;gap:14px;justify-items:center;text-align:center;max-height:90vh;overflow:auto}
+.sheet h2{font-size:1.7rem}
+.sheet p{color:var(--ink-dim)}
+.sheet .field-in{text-align:center}
+.sheet .gift{width:84px;height:84px;border-radius:28px}
+.sheet .gift svg{width:44px;height:44px}
+.sheet .btn{margin-top:4px}
+
+#toasts{position:fixed;left:0;right:0;top:calc(10px + env(safe-area-inset-top,0px));z-index:100;display:grid;justify-items:center;gap:8px;pointer-events:none;padding-inline:16px}
+.toast{max-width:420px;padding:10px 18px;border-radius:99px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);font-weight:700;font-size:.92rem;text-align:center;animation:toastin .3s ease both}
+.toast.good{border-color:var(--leaf)}
+.toast.out{animation:toastout .4s ease forwards}
+.float{position:fixed;z-index:95;transform:translate(-50%,0);font:600 1.05rem var(--font-display);color:var(--sun-ink);pointer-events:none;animation:floatup .9s ease-out forwards}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90}
+
+@keyframes viewin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes bump{40%{transform:scale(1.15)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes sway{0%,100%{transform:rotate(-1.8deg)}50%{transform:rotate(1.8deg)}}
+@keyframes grow{0%{transform:scale(.6)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes rise{from{transform:translateY(0)}to{transform:translateY(calc(var(--h) * -1))}}
+@keyframes pop{to{transform:scale(1.5);opacity:0}}
+@keyframes spark{from{transform:translate(-50%,-50%) rotate(var(--a)) translateX(0);opacity:1}to{transform:translate(-50%,-50%) rotate(var(--a)) translateX(58px);opacity:0}}
+@keyframes toastin{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes toastout{to{opacity:0;transform:translateY(-10px)}}
+@keyframes floatup{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-46px)}}
+@keyframes buddy-bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+@keyframes tile-enter{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes intro-pop{from{opacity:0;transform:scale(.72) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes score-pop{from{opacity:0;transform:scale(.55) rotate(-5deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes buddy-blink{0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.08)}}
+@keyframes buddy-wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-13deg)}}
+@keyframes buddy-cheer{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-22px) rotate(-10deg)}70%{transform:translateY(-8px) rotate(9deg)}}
+@keyframes butterfly-float{0%,100%{transform:translate(0,0) rotate(-8deg)}50%{transform:translate(-18px,-20px) rotate(10deg)}}
+@keyframes wing-flutter{from{transform:scaleX(1) rotate(-8deg)}to{transform:scaleX(.35) rotate(12deg)}}
+@keyframes leaf-drift{0%,100%{translate:0 0;rotate:0deg}50%{translate:9px -14px;rotate:24deg}}
+
+@media (min-width:640px){
+  .plots{grid-template-columns:repeat(4,1fr)}
+  .spcs{grid-template-columns:repeat(6,1fr)}
+  .stats{grid-template-columns:repeat(6,1fr)}
+}
+@media (max-width:560px){.home-hero{grid-template-columns:minmax(0,1fr) 120px;gap:0;padding:18px 14px;min-height:238px}.buddy-scene{min-height:190px}.bloom-buddy{width:126px;height:128px}.buddy-line{max-width:126px;padding:7px 8px;font-size:.68rem}.buddy-butterfly{width:34px;height:32px;right:-2%}.buddy-leaf.one{left:0}}
+@media (max-width:380px){.home-hero{grid-template-columns:minmax(0,1fr) 94px}.bloom-buddy{width:104px;height:112px}.buddy-scene{min-height:168px}.buddy-line{max-width:106px;font-size:.64rem}}
+@media (max-width:420px){.profile-row{align-items:flex-start}.profile-details{grid-template-columns:1fr}.avatar{width:54px;height:54px;border-radius:18px}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+html[dir="rtl"] body{font-family:'Noto Sans Arabic','Noto Nastaliq Urdu',serif;line-height:1.9}
+html[dir="rtl"] h1,html[dir="rtl"] h2,html[dir="rtl"] h3,html[dir="rtl"] .btn,html[dir="rtl"] .brand,html[dir="rtl"] .tab{font-family:'Noto Nastaliq Urdu','Noto Sans Arabic',serif;line-height:1.7}
+html[dir="rtl"] .opt,html[dir="rtl"] .field-in,html[dir="rtl"] .guide-form input{text-align:right}
+html[dir="rtl"] .qmeta,html[dir="rtl"] .wmeta,html[dir="rtl"] .pophud{direction:rtl}
+html[dir="rtl"] .stage-top{direction:rtl}
+html[dir="rtl"] .guide-msg,html[dir="rtl"] .guide-actions{direction:rtl}
+html[dir="rtl"] .guide-msg.user{align-self:flex-start}
+html[dir="rtl"] .guide-form button{flex:none}
+</style>
+
+<div id="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 20v10" stroke="#46c995" stroke-width="2.6" stroke-linecap="round"/>
+        <g transform="translate(16 13)" fill="#ff9db9" stroke="rgba(30,20,60,.25)" stroke-width=".6">
+          <ellipse cx="0" cy="-6" rx="3.6" ry="6"/>
+          <ellipse cx="0" cy="-6" rx="3.6" ry="6" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-6" rx="3.6" ry="6" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-6" rx="3.6" ry="6" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-6" rx="3.6" ry="6" transform="rotate(288)"/>
+        </g>
+        <circle cx="16" cy="13" r="3.6" fill="#ffd166"/>
+      </svg>
+      <span>Mind Bloom</span>
+    </div>
+    <div class="hud">
+      <div class="pill" id="sunPill" title="Sun you have collected"><span id="sunIc"></span><span id="sunVal">0</span></div>
+      <div class="pill" title="Your level"><span id="lvlVal">Lv 1</span></div>
+      <button class="pill lang-toggle" id="languageToggle" type="button" aria-label="Switch to Urdu">اردو</button>
+    </div>
+  </header>
+  <div class="xp" aria-hidden="true"><i id="xpFill"></i></div>
+  <main id="main">
+    <section id="view-home" class="view"></section>
+    <section id="view-play" class="view" hidden></section>
+    <section id="view-garden" class="view" hidden></section>
+    <section id="view-me" class="view" hidden></section>
+  </main>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="Main"></nav>
+
+<div id="stage" class="stage" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle">
+  <div class="stage-in">
+    <div class="stage-top">
+      <button class="iconbtn" id="stageClose" aria-label="Close game"></button>
+      <h2 id="stageTitle"></h2>
+    </div>
+    <div class="xp" aria-hidden="true"><i id="stageProg"></i></div>
+  </div>
+  <div class="stage-body" id="stageBody"></div>
+</div>
+
+<div id="modal" class="modal" hidden><div class="sheet" id="modalBody"></div></div>
+<div id="toasts" aria-live="polite"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<button class="guide-launch" id="guideLaunch" aria-label="Open Mind Bloom guide" aria-expanded="false"></button>
+<section class="guide-panel" id="guidePanel" aria-label="Mind Bloom guide" hidden>
+  <header class="guide-head"><div class="guide-avatar" id="guideIcon"></div><div class="guide-title"><b>Bloom Guide</b><span>Here to help you find your way</span></div><button class="iconbtn guide-close" id="guideClose" aria-label="Close guide"></button></header>
+  <div class="guide-log" id="guideLog" role="log" aria-live="polite"></div>
+  <form class="guide-form" id="guideForm"><label class="sr" for="guideInput">Ask about Mind Bloom</label><input id="guideInput" maxlength="240" placeholder="Ask me about the app…" autocomplete="off"><button type="submit" aria-label="Send message"></button></form>
+</section>
+
+<script>
+(function(){
+'use strict';
+
+/* ================= helpers ================= */
+const $=(s,el)=>(el||document).querySelector(s);
+const $$=(s,el)=>[...(el||document).querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rand=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rand(a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;};
+const graphemes=value=>{
+  if(window.Intl&&Intl.Segmenter)return [...new Intl.Segmenter('ur',{granularity:'grapheme'}).segment(value)].map(x=>x.segment);
+  return [...value].reduce((out,ch)=>{if(/\p{Mark}/u.test(ch)&&out.length)out[out.length-1]+=ch;else out.push(ch);return out;},[]);
+};
+const pad=n=>String(n).padStart(2,'0');
+const dstr=d=>{d=d||new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+const dayDiff=(a,b)=>{const x=a.split('-').map(Number),y=b.split('-').map(Number);return Math.round((Date.UTC(y[0],y[1]-1,y[2])-Date.UTC(x[0],x[1]-1,x[2]))/864e5);};
+const reduceMotion=window.matchMedia?matchMedia('(prefers-reduced-motion: reduce)').matches:false;
+
+const I=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+const ICON={
+  home:I('<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>'),
+  play:I('<path d="M8 5v14l11-7z"/>'),
+  garden:I('<path d="M12 21v-9"/><path d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 15c0-3-2-5-6-5 0 3 2 5 6 5z"/>'),
+  me:I('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'),
+  sun:I('<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>'),
+  flame:I('<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/>'),
+  quiz:I('<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>'),
+  memory:I('<rect x="3" y="6" width="11" height="14" rx="2"/><rect x="10" y="4" width="11" height="14" rx="2"/>'),
+  word:I('<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 16l3.5-8 3.5 8M9.8 13.5h4.4"/>'),
+  pop:I('<circle cx="9" cy="14" r="5"/><circle cx="17" cy="7" r="3"/><path d="M7 12a3 3 0 0 1 2-2"/>'),
+  breathe:I('<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="10.5" opacity=".5"/>'),
+  close:I('<path d="M6 6l12 12M18 6L6 18"/>'),
+  check:I('<path d="M5 12l5 5 9-10"/>'),
+  lock:I('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+  gift:I('<rect x="3" y="9" width="18" height="11" rx="2"/><path d="M12 9v11M3 14h18"/><path d="M12 9c-3 0-5-1-5-3s3-2 5 3c2-5 5-5 5-3s-2 3-5 3z"/>'),
+  star:I('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')
+};
+function face(n){
+  const m={1:'M8 17c1.3-2 6.7-2 8 0',2:'M8.5 16.5c1-1 5-1 7 0',3:'M8.5 15.5h7',4:'M8 14.5c1.3 2.6 6.7 2.6 8 0',5:'M7.5 13.5c1 5 8 5 9 0z'};
+  return '<svg class="face" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/><path d="'+m[n]+'"/></svg>';
+}
+
+/* ================= content ================= */
+const URDU_TEXT={};
+const CATS={research:'Research & stats',business:'Business',tech:'Tech & data',mind:'Learning & mind',world:'World & science'};
+const Q=(c,q,o,a,e)=>({c,q,o,a,e});
+const QUESTIONS=[
+  Q('research',`A p-value of 0.03 tells you...`,[`There is a 3% chance the null hypothesis is true`,`How likely data this extreme is if the null were true`,`There is a 97% chance your effect is real`,`Your effect size is small`],1,`A p-value is the probability of data this extreme if the null is true. It is not the probability that the null is true.`),
+  Q('research',`Which sampling method gives every member of the population an equal chance of selection?`,[`Convenience sampling`,`Snowball sampling`,`Simple random sampling`,`Quota sampling`],2,`Simple random sampling draws members purely by chance, which limits selection bias.`),
+  Q('research',`A Type I error means you...`,[`Failed to reject a false null`,`Rejected a true null`,`Measured the wrong variable`,`Used too small a sample`],1,`Type I is a false positive: rejecting a null that is actually true. Alpha sets the rate you tolerate.`),
+  Q('research',`Ice cream sales and drownings rise together. The most likely explanation?`,[`Ice cream causes drowning`,`Drowning drives ice cream sales`,`Hot weather drives both`,`The data must be fake`],2,`A confounder, like hot weather, can drive two variables that have no direct causal link.`),
+  Q('research',`The main goal of a literature review is to...`,[`Prove your hypothesis`,`Map what is known and spot gaps`,`Hit the word count`,`Collect raw data`],1,`A good review shows the state of knowledge and where your question fits in.`),
+  Q('research',`Which summary statistic is most robust to outliers?`,[`Mean`,`Range`,`Median`,`Standard deviation`],2,`The median depends on the middle rank, so one extreme value barely moves it.`),
+  Q('research',`What does "95%" mean in a 95% confidence interval?`,[`95% of the data fall inside it`,`The true value is in this interval with 95% probability`,`About 95% of such intervals would capture the true value`,`You are 95% sure there is causation`],2,`The 95% describes the long-run procedure: repeat the study many times and about 95% of the intervals catch the true value.`),
+  Q('research',`Sorting interview transcripts into recurring patterns is called...`,[`Regression`,`Thematic analysis`,`ANOVA`,`Factor rotation`],1,`Thematic analysis codes qualitative data and groups the codes into themes.`),
+
+  Q('business',`In a SWOT analysis, which pair describes internal factors?`,[`Strengths and weaknesses`,`Opportunities and threats`,`Strengths and threats`,`Weaknesses and opportunities`],0,`Strengths and weaknesses live inside the organization. Opportunities and threats come from outside.`),
+  Q('business',`The Pareto principle says roughly...`,[`50% of effort gives 50% of results`,`80% of effects come from 20% of causes`,`Every task takes twice as long`,`Results grow with the square of effort`],1,`Often a minority of inputs, like customers or bugs, drives most of the outcome.`),
+  Q('business',`Opportunity cost is...`,[`The price printed on the tag`,`The value of the next-best option you give up`,`Interest on a loan`,`The cost of idle equipment only`],1,`Every choice costs you the best alternative you did not take.`),
+  Q('business',`Porter's Five Forces is used to analyze...`,[`Employee motivation`,`Industry competitiveness`,`Supply chain speed`,`Brand colors`],1,`It looks at rivalry, new entrants, substitutes, and the bargaining power of buyers and suppliers.`),
+  Q('business',`In Scrum, a short fixed-length work cycle is called a...`,[`Sprint`,`Marathon`,`Stand-down`,`Backlog`],0,`A sprint usually lasts one to four weeks and starts with an agreed goal.`),
+  Q('business',`The break-even point is where...`,[`Profit is at its highest`,`Total revenue equals total cost`,`Sales stop growing`,`Fixed costs reach zero`],1,`Below it you lose money. Above it you make a profit.`),
+  Q('business',`Which of these is a lagging indicator?`,[`Sales calls booked this week`,`Newsletter signups today`,`Last quarter's revenue`,`Demo requests this morning`],2,`Lagging indicators report results after the fact. Leading ones hint at what comes next.`),
+  Q('business',`ROI is calculated as...`,[`Gain minus cost, divided by cost`,`Cost divided by revenue`,`Revenue minus tax`,`Profit times time`],0,`Return on investment compares the net gain with what you put in.`),
+
+  Q('tech',`Binary search on a sorted list runs in...`,[`O(n)`,`O(log n)`,`O(n squared)`,`O(1) always`],1,`Each step halves the search range, so the number of steps grows with log n.`),
+  Q('tech',`Overfitting happens when a model...`,[`Is too simple to learn`,`Memorizes training data and fails on new data`,`Trains for too few seconds`,`Uses too many GPUs`],1,`It captures noise in the training set instead of the real pattern.`),
+  Q('tech',`Which SQL clause filters groups after aggregation?`,[`WHERE`,`HAVING`,`LIMIT`,`ORDER BY`],1,`WHERE filters rows before grouping. HAVING filters the groups afterwards.`),
+  Q('tech',`Which data structure follows last in, first out?`,[`Queue`,`Stack`,`Array`,`Hash map`],1,`Think of a pile of plates: you take the one you put on last.`),
+  Q('tech',`HTTPS differs from HTTP mainly by adding...`,[`Faster servers`,`Encryption with TLS`,`Larger images`,`Free hosting`],1,`TLS encrypts the traffic so others on the network cannot read it.`),
+  Q('tech',`Supervised learning requires...`,[`Labeled examples`,`No data at all`,`A human watching live`,`Only images`],0,`The model learns from inputs paired with the correct answers.`),
+  Q('tech',`In Git, which command records staged changes in history?`,[`git push`,`git commit`,`git fetch`,`git stash`],1,`Commit saves a snapshot locally. Push shares it with a remote.`),
+  Q('tech',`What does an API let two programs do?`,[`Share a screen`,`Talk to each other through defined rules`,`Merge their code`,`Run faster`],1,`An API is a contract that describes the requests and responses allowed.`),
+
+  Q('mind',`Spaced repetition works because...`,[`Cramming is faster`,`Reviewing just before you forget strengthens memory`,`Silence helps recall`,`Notes get shorter`],1,`This is the spacing effect: well-timed reviews build stronger, longer-lasting memories.`),
+  Q('mind',`The classic Pomodoro cycle is...`,[`10 min work, 10 min rest`,`25 min focus, 5 min break`,`50 min focus, 20 min break`,`2 hours straight`],1,`Short, protected focus blocks make starting easier and rest regular.`),
+  Q('mind',`Active recall means...`,[`Rereading your notes`,`Testing yourself from memory`,`Highlighting every line`,`Listening twice`],1,`Pulling answers out of memory beats passive review for retention.`),
+  Q('mind',`The forgetting curve shows that memory...`,[`Stays flat`,`Fades fast at first, then more slowly`,`Improves with sleep only`,`Fades evenly over time`],1,`Ebbinghaus found that most forgetting happens soon after learning.`),
+  Q('mind',`Which sentence shows a growth mindset?`,[`I'm just not a numbers person`,`I can't do this yet`,`Talent decides everything`,`Mistakes mean I should quit`],1,`The word "yet" frames skill as something that develops with effort and strategy.`),
+  Q('mind',`Flow is most likely when...`,[`The task is far too easy`,`Challenge matches your skill`,`You multitask`,`Nobody is watching`],1,`Csikszentmihalyi found deep absorption appears when difficulty and ability are balanced.`),
+  Q('mind',`Sleep helps learning mainly by...`,[`Replacing study`,`Consolidating memories`,`Lowering curiosity`,`Erasing old facts`],1,`During sleep the brain replays and stores what you learned that day.`),
+  Q('mind',`Cognitive load theory warns that...`,[`Working memory is limited`,`Long-term memory is small`,`Visuals always help`,`More facts per slide is better`],0,`Overloading working memory blocks learning, so break material into manageable chunks.`),
+
+  Q('world',`What does CRISPR-Cas9 do?`,[`Sequences proteins`,`Edits DNA at chosen locations`,`Grows cells faster`,`Measures gene expression`],1,`A guide RNA directs Cas9 to cut DNA at a specific site.`),
+  Q('world',`Which gas makes up most of Earth's atmosphere?`,[`Oxygen`,`Nitrogen`,`Carbon dioxide`,`Argon`],1,`Nitrogen is about 78% of the air. Oxygen is about 21%.`),
+  Q('world',`The Gini coefficient measures...`,[`Inflation`,`Income inequality`,`Unemployment`,`Trade balance`],1,`A value of 0 means perfect equality. A value of 1 means one person holds everything.`),
+  Q('world',`Which layer of the atmosphere holds most of the ozone layer?`,[`Troposphere`,`Stratosphere`,`Mesosphere`,`Exosphere`],1,`Ozone in the stratosphere absorbs much of the Sun's ultraviolet light.`),
+  Q('world',`Inflation is...`,[`A general rise in price levels`,`A fall in unemployment`,`Growth in exports`,`A rise in interest rates only`],0,`Each unit of currency buys less than it did before.`),
+  Q('world',`Roughly how fast does light travel in a vacuum?`,[`300 km/s`,`3,000 km/s`,`300,000 km/s`,`3,000,000 km/s`],2,`About 299,792 kilometres every second.`),
+  Q('world',`Who developed the theory of general relativity?`,[`Isaac Newton`,`Albert Einstein`,`Niels Bohr`,`Marie Curie`],1,`Einstein published it in 1915: gravity as the curvature of spacetime.`),
+  Q('world',`Which country has the most time zones when overseas territories count?`,[`Russia`,`France`,`United States`,`China`],1,`France's overseas territories give it 12 zones, or 13 if you count its Antarctic claim.`)
+];
+const QUESTION_URDU=[
+  [`0.03 کی p-value کیا بتاتی ہے؟`,[`null hypothesis کے درست ہونے کا 3٪ امکان`,`اگر null hypothesis درست ہو تو اس حد تک غیرمعمولی ڈیٹا کا امکان`,`آپ کے اثر کے حقیقی ہونے کا 97٪ امکان`,`آپ کے اثر کا سائز چھوٹا ہے`],`p-value یہ امکان بتاتی ہے کہ null hypothesis درست ہو تو اتنا غیرمعمولی ڈیٹا ملے۔ یہ null hypothesis کے درست ہونے کا امکان نہیں بتاتی۔`],
+  [`کون سا نمونہ لینے کا طریقہ ہر فرد کو منتخب ہونے کا برابر موقع دیتا ہے؟`,[`آسان دستیاب افراد کا انتخاب`,`سفارش کے ذریعے نمونہ`,`سادہ اتفاقی نمونہ`,`مقررہ حصوں کے مطابق نمونہ`],`سادہ اتفاقی نمونے میں افراد خالصتاً اتفاق سے چنے جاتے ہیں، جس سے انتخاب کا تعصب کم ہوتا ہے۔`],
+  [`Type I کی غلطی کا مطلب کیا ہے؟`,[`غلط null مفروضے کو رد نہ کرنا`,`درست null مفروضے کو رد کرنا`,`غلط متغیر ناپنا`,`بہت چھوٹا نمونہ لینا`],`Type I غلطی ایک غلط مثبت نتیجہ ہے: ایسا null مفروضہ رد کرنا جو حقیقت میں درست ہو۔`],
+  [`آئس کریم کی فروخت اور ڈوبنے کے واقعات ساتھ بڑھیں تو غالب وجہ کیا ہو سکتی ہے؟`,[`آئس کریم ڈوبنے کا سبب بنتی ہے`,`ڈوبنے سے آئس کریم کی فروخت بڑھتی ہے`,`گرم موسم دونوں میں اضافہ کرتا ہے`,`ڈیٹا لازماً جعلی ہے`],`گرم موسم جیسا تیسرا عامل دو چیزوں کو بیک وقت بڑھا سکتا ہے، چاہے ان میں براہِ راست سبب اور نتیجے کا تعلق نہ ہو۔`],
+  [`ادبی جائزے کا بنیادی مقصد کیا ہے؟`,[`اپنے مفروضے کو ثابت کرنا`,`موجودہ علم کا جائزہ لے کر خلا تلاش کرنا`,`الفاظ کی تعداد پوری کرنا`,`خام ڈیٹا جمع کرنا`],`اچھا ادبی جائزہ بتاتا ہے کہ موضوع پر کیا معلوم ہے اور آپ کا سوال کہاں فٹ ہوتا ہے۔`],
+  [`کون سا خلاصہ انتہائی اقدار سے کم متاثر ہوتا ہے؟`,[`اوسط`,`حد`,`درمیانی قدر`,`معیاری انحراف`],`درمیانی قدر ترتیب میں درمیان والے مقام پر منحصر ہوتی ہے، اس لیے ایک بہت بڑی یا چھوٹی قدر اسے کم بدلتی ہے۔`],
+  [`95٪ اعتماد کے وقفے میں “95٪” کا کیا مطلب ہے؟`,[`95٪ ڈیٹا اس وقفے میں آتا ہے`,`اس وقفے میں اصل قدر ہونے کا 95٪ امکان ہے`,`ایسے تقریباً 95٪ وقفوں میں اصل قدر شامل ہوگی`,`سببیت کے بارے میں 95٪ یقین ہے`],`95٪ اس طریقۂ کار کی طویل مدتی خاصیت ہے: مطالعہ بار بار کرنے پر تقریباً 95٪ وقفوں میں اصل قدر آئے گی۔`],
+  [`انٹرویو کے متن میں بار بار آنے والے موضوعات تلاش کرنے کو کیا کہتے ہیں؟`,[`رجعتی تجزیہ`,`موضوعاتی تجزیہ`,`ANOVA`,`عامل کی گردش`],`موضوعاتی تجزیے میں معیاری ڈیٹا کو کوڈ کیا جاتا ہے اور ملتے جلتے کوڈز سے موضوعات بنائے جاتے ہیں۔`],
+  [`SWOT تجزیے میں کون سا جوڑا اندرونی عوامل دکھاتا ہے؟`,[`خوبیاں اور کمزوریاں`,`مواقع اور خطرات`,`خوبیاں اور خطرات`,`کمزوریاں اور مواقع`],`خوبیاں اور کمزوریاں ادارے کے اندر ہوتی ہیں؛ مواقع اور خطرات باہر کے ماحول سے آتے ہیں۔`],
+  [`Pareto اصول کے مطابق تقریباً کیا ہوتا ہے؟`,[`50٪ کوشش سے 50٪ نتائج ملتے ہیں`,`80٪ اثرات کی وجہ 20٪ عوامل ہوتے ہیں`,`ہر کام میں دوگنا وقت لگتا ہے`,`نتائج کوشش کے مربع کے ساتھ بڑھتے ہیں`],`اکثر چند عوامل، جیسے کچھ گاہک یا خرابیوں کی اقسام، زیادہ تر نتائج پیدا کرتے ہیں۔`],
+  [`موقع کی لاگت کیا ہوتی ہے؟`,[`قیمت کے ٹیگ پر لکھی رقم`,`چھوڑے گئے اگلے بہترین انتخاب کی قدر`,`قرض پر سود`,`صرف خالی مشینوں کی لاگت`],`ہر انتخاب کی قیمت وہ بہترین متبادل ہے جسے آپ نے اختیار نہیں کیا۔`],
+  [`Porter کی Five Forces کس چیز کا تجزیہ کرتی ہے؟`,[`ملازمین کی حوصلہ افزائی`,`صنعت میں مسابقت`,`سپلائی چین کی رفتار`,`برانڈ کے رنگ`],`یہ حریفوں، نئے داخل ہونے والوں، متبادل مصنوعات، خریداروں اور سپلائرز کی طاقت دیکھتی ہے۔`],
+  [`Scrum میں مقررہ مدت کے کام کے دورانیے کو کیا کہتے ہیں؟`,[`Sprint`,`Marathon`,`Stand-down`,`Backlog`],`Sprint عموماً ایک سے چار ہفتوں کا ہوتا ہے اور ایک طے شدہ مقصد کے ساتھ شروع ہوتا ہے۔`],
+  [`منافع اور نقصان برابر ہونے کا مقام کب آتا ہے؟`,[`جب منافع سب سے زیادہ ہو`,`جب کل آمدنی کل لاگت کے برابر ہو`,`جب فروخت بڑھنا بند ہو`,`جب مقررہ اخراجات صفر ہوں`],`اس مقام سے کم آمدنی پر نقصان اور اس سے زیادہ پر منافع ہوتا ہے۔`],
+  [`ان میں سے کون سا پیچھے رہ کر نتیجہ دکھانے والا اشاریہ ہے؟`,[`اس ہفتے طے شدہ فروخت کالز`,`آج نیوزلیٹر کے نئے قارئین`,`گزری سہ ماہی کی آمدنی`,`آج کی ڈیمو درخواستیں`],`پیچھے رہنے والے اشاریے گزرے ہوئے نتائج بتاتے ہیں؛ پیشگی اشاریے ممکنہ آئندہ نتائج کا اشارہ دیتے ہیں۔`],
+  [`ROI کیسے نکالا جاتا ہے؟`,[`حاصل شدہ فائدہ میں سے لاگت منہا کرکے، لاگت پر تقسیم`,`آمدنی کو فروخت پر تقسیم`,`آمدنی میں سے ٹیکس منہا`,`منافع کو وقت سے ضرب`],`سرمایہ کاری پر منافع خالص فائدے کا لگائی گئی لاگت سے موازنہ کرتا ہے۔`],
+  [`ترتیب دی گئی فہرست میں binary search کتنی رفتار سے چلتی ہے؟`,[`O(n)`,`O(log n)`,`O(n squared)`,`ہمیشہ O(1)`],`ہر قدم پر تلاش کا حصہ آدھا رہ جاتا ہے، اس لیے قدموں کی تعداد log n کے مطابق بڑھتی ہے۔`],
+  [`ماڈل میں overfitting کب ہوتی ہے؟`,[`جب ماڈل سیکھنے کے لیے بہت سادہ ہو`,`جب ماڈل تربیتی ڈیٹا یاد کرکے نئے ڈیٹا پر ناکام ہو`,`جب تربیت بہت جلد روک دی جائے`,`جب بہت سے GPU استعمال ہوں`],`ایسا ماڈل اصل پیٹرن کے بجائے تربیتی ڈیٹا کے اتفاقی شور کو بھی یاد کر لیتا ہے۔`],
+  [`SQL میں مجموعہ بنانے کے بعد گروپز کو کون سا clause فلٹر کرتا ہے؟`,[`WHERE`,`HAVING`,`LIMIT`,`ORDER BY`],`WHERE گروپ بندی سے پہلے قطاریں فلٹر کرتا ہے؛ HAVING گروپ بندی کے بعد گروپس فلٹر کرتا ہے۔`],
+  [`کون سا ڈیٹا ڈھانچہ “آخری آیا، پہلے نکلا” اصول پر چلتا ہے؟`,[`Queue`,`Stack`,`Array`,`Hash map`],`پلیٹوں کے ڈھیر کا تصور کریں: جو پلیٹ آخر میں رکھی، وہ پہلے اٹھائی جاتی ہے۔`],
+  [`HTTPS، HTTP سے بنیادی طور پر کس اضافے کی وجہ سے مختلف ہے؟`,[`تیز سرورز`,`TLS کے ذریعے خفیہ کاری`,`بڑی تصاویر`,`مفت ہوسٹنگ`],`TLS نیٹ ورک پر بھیجے جانے والے ڈیٹا کو خفیہ کرتا ہے تاکہ دوسرے اسے نہ پڑھ سکیں۔`],
+  [`Supervised learning کے لیے کیا درکار ہے؟`,[`لیبل لگائی گئی مثالیں`,`بالکل ڈیٹا نہیں`,`براہِ راست نگرانی کرتا انسان`,`صرف تصاویر`],`ماڈل ایسے ان پٹس سے سیکھتا ہے جن کے ساتھ درست جواب بھی دیا گیا ہو۔`],
+  [`Git میں staged تبدیلیوں کو تاریخ میں محفوظ کرنے کا حکم کیا ہے؟`,[`git push`,`git commit`,`git fetch`,`git stash`],`commit تبدیلیوں کا snapshot مقامی طور پر محفوظ کرتا ہے؛ push اسے remote پر بھیجتا ہے۔`],
+  [`API دو پروگراموں کو کیا کرنے دیتی ہے؟`,[`ایک دوسرے کی اسکرین دکھانے`,`طے شدہ قواعد کے ذریعے بات کرنے`,`اپنا کوڈ ضم کرنے`,`زیادہ تیز چلنے`],`API ایک معاہدہ ہے جو بتاتا ہے کہ پروگرام کس طرح درخواست اور جواب کا تبادلہ کر سکتے ہیں۔`],
+  [`Spaced repetition مؤثر کیوں ہوتی ہے؟`,[`جلدی رٹنا آسان ہے`,`بھولنے سے پہلے دہرانا یادداشت مضبوط کرتا ہے`,`خاموشی یادداشت بڑھاتی ہے`,`نوٹس مختصر ہو جاتے ہیں`],`درمیان میں وقفہ دے کر دہرانے سے معلومات زیادہ مضبوط اور دیرپا یاد رہتی ہیں۔`],
+  [`Pomodoro کا روایتی دورانیہ کیا ہے؟`,[`10 منٹ کام، 10 منٹ آرام`,`25 منٹ توجہ، 5 منٹ وقفہ`,`50 منٹ توجہ، 20 منٹ وقفہ`,`مسلسل 2 گھنٹے`],`مختصر، محفوظ توجہ کے دورانیے کام شروع کرنا آسان اور آرام باقاعدہ بناتے ہیں۔`],
+  [`Active recall سے کیا مراد ہے؟`,[`نوٹس دوبارہ پڑھنا`,`یادداشت سے خود جواب دینا`,`ہر سطر نمایاں کرنا`,`دو بار سننا`],`یادداشت سے جواب نکالنے کی مشق، صرف دوبارہ پڑھنے سے بہتر سیکھنے میں مدد دیتی ہے۔`],
+  [`بھولنے کا منحنی خط کیا دکھاتا ہے؟`,[`یادداشت جوں کی توں رہتی ہے`,`شروع میں یادداشت تیزی سے گھٹتی، پھر آہستہ`,`یادداشت صرف نیند سے بہتر ہوتی ہے`,`یادداشت یکساں رفتار سے گھٹتی ہے`],`ابتدائی مطالعات کے مطابق سیکھنے کے فوراً بعد بھولنے کی رفتار سب سے زیادہ ہوتی ہے۔`],
+  [`کون سا جملہ ترقی پذیر ذہنیت دکھاتا ہے؟`,[`میں ریاضی میں کبھی اچھا نہیں ہو سکتا`,`میں ابھی یہ نہیں کر پا رہا`,`صلاحیت پیدائشی اور مستقل ہے`,`غلطی کا مطلب ہے کہ مجھے رک جانا چاہیے`],`“ابھی” کا لفظ بتاتا ہے کہ مشق اور درست حکمتِ عملی سے مہارت بہتر ہو سکتی ہے۔`],
+  [`گہری توجہ یا flow کب پیدا ہونے کا امکان زیادہ ہوتا ہے؟`,[`کام بہت آسان ہو`,`چیلنج مہارت کے مطابق ہو`,`آپ کئی کام ساتھ کریں`,`کوئی آپ کو نہ دیکھ رہا ہو`],`گہری توجہ تب زیادہ ممکن ہوتی ہے جب کام کی مشکل اور آپ کی مہارت میں توازن ہو۔`],
+  [`نیند سیکھنے میں بنیادی طور پر کیسے مدد دیتی ہے؟`,[`مطالعے کی جگہ لے کر`,`یادوں کو مضبوط کرکے`,`تجسس گھٹا کر`,`پرانے حقائق مٹا کر`],`نیند کے دوران دماغ نئی سیکھی ہوئی باتوں کو دہراتا اور محفوظ کرتا ہے۔`],
+  [`Cognitive load theory کس بات سے خبردار کرتی ہے؟`,[`ذہنی کام کرنے کی یادداشت محدود ہے`,`طویل مدتی یادداشت بہت چھوٹی ہے`,`تصاویر ہمیشہ مدد دیتی ہیں`,`ایک سلائیڈ پر زیادہ حقائق بہتر ہیں`],`ذہنی یادداشت پر بہت زیادہ بوجھ سیکھنے میں رکاوٹ بنتا ہے، اس لیے مواد کو چھوٹے حصوں میں بانٹیں۔`],
+  [`CRISPR-Cas9 کیا کرتا ہے؟`,[`پروٹین کی ترتیب معلوم کرتا ہے`,`DNA میں منتخب مقامات پر تبدیلی کرتا ہے`,`خلیوں کو تیزی سے بڑھاتا ہے`,`جین کے اظہار کو ناپتا ہے`],`رہنما RNA، Cas9 کو DNA کے مخصوص مقام تک لے جاتا ہے جہاں وہ اسے کاٹ سکتا ہے۔`],
+  [`زمین کی فضا میں سب سے زیادہ کون سی گیس ہے؟`,[`آکسیجن`,`نائٹروجن`,`کاربن ڈائی آکسائیڈ`,`آرگن`],`ہوا کا تقریباً 78٪ نائٹروجن اور 21٪ آکسیجن ہے۔`],
+  [`Gini coefficient کس چیز کو ناپتا ہے؟`,[`مہنگائی`,`آمدنی کی ناہمواری`,`بے روزگاری`,`تجارتی توازن`],`صفر مکمل برابری اور ایک انتہائی ناہمواری کو ظاہر کرتا ہے۔`],
+  [`فضا کی کس تہہ میں زیادہ تر اوزون موجود ہے؟`,[`ٹروپوسفیئر`,`اسٹراٹوسفیئر`,`میسوسفیئر`,`ایکسوسفیئر`],`اسٹراٹوسفیئر میں موجود اوزون سورج کی زیادہ تر بالائے بنفشی شعاعیں جذب کرتی ہے۔`],
+  [`مہنگائی سے کیا مراد ہے؟`,[`قیمتوں کی عمومی سطح میں اضافہ`,`بے روزگاری میں کمی`,`برآمدات میں اضافہ`,`صرف شرحِ سود میں اضافہ`],`مہنگائی کے باعث ہر کرنسی یونٹ سے پہلے کے مقابلے میں کم چیزیں خریدی جا سکتی ہیں۔`],
+  [`خلا میں روشنی تقریباً کتنی تیز سفر کرتی ہے؟`,[`300 کلومیٹر فی سیکنڈ`,`3,000 کلومیٹر فی سیکنڈ`,`300,000 کلومیٹر فی سیکنڈ`,`3,000,000 کلومیٹر فی سیکنڈ`],`روشنی خلا میں تقریباً 299,792 کلومیٹر فی سیکنڈ سفر کرتی ہے۔`],
+  [`عمومی نظریۂ اضافیت کس نے پیش کیا؟`,[`آئزک نیوٹن`,`البرٹ آئن اسٹائن`,`نیلز بوہر`,`میری کیوری`],`آئن اسٹائن نے 1915 میں یہ نظریہ پیش کیا: کششِ ثقل، زمان و مکاں کے خم کی صورت ہے۔`],
+  [`بیرونِ ملک علاقوں سمیت سب سے زیادہ ٹائم زون کس ملک کے ہیں؟`,[`روس`,`فرانس`,`ریاستہائے متحدہ`,`چین`],`فرانس کے بیرونِ ملک علاقوں کے باعث اس کے 12 ٹائم زون ہیں؛ انٹارکٹک دعوے کو شمار کریں تو 13۔`]
+];
+const PAIRS=[
+  [`Median`,`The middle value`],[`Hypothesis`,`A testable guess`],[`Inflation`,`Prices rising overall`],[`Stack`,`Last in, first out`],
+  [`Queue`,`First in, first out`],[`Opportunity cost`,`Next-best option lost`],[`Sprint`,`Short fixed work cycle`],[`Overfitting`,`Memorizes the noise`],
+  [`Confounder`,`Hidden third variable`],[`Mitochondria`,`The cell's power plant`],[`Spacing effect`,`Spread-out reviews`],[`Active recall`,`Testing yourself`],
+  [`Bias`,`Systematic error`],[`Latency`,`Delay before a reply`],[`Encryption`,`Scrambling for privacy`],[`Scalability`,`Handles growth`],
+  [`Benchmark`,`Standard to compare with`],[`Peer review`,`Experts check the work`],[`Variance`,`Spread of the data`],[`Equity`,`Ownership stake`],
+  [`Liquidity`,`Ease of turning into cash`],[`Synergy`,`Whole beats the parts`],[`Heuristic`,`Mental shortcut`],[`Paradigm`,`Dominant framework`]
+];
+const WORDS=[
+  [`THESIS`,`The long paper at the end of your degree`],[`METHOD`,`How you collect and analyze your data`],[`SAMPLE`,`The slice of a population you study`],
+  [`VARIABLE`,`Something that can change in an experiment`],[`ABSTRACT`,`The short summary at the top of a paper`],[`CITATION`,`A credit to the source you used`],
+  [`JOURNAL`,`Where peer-reviewed research gets published`],[`PROPOSAL`,`Your plan before the research starts`],[`SEMINAR`,`A small discussion class`],
+  [`FRAMEWORK`,`The structure your argument stands on`],[`CAPSTONE`,`A final project that ties it all together`],[`ALGORITHM`,`Step-by-step instructions for a computer`],
+  [`STRATEGY`,`A plan to reach a long-term goal`],[`ANALYTICS`,`Turning raw data into insight`],[`NETWORK`,`Connected people or computers`],
+  [`MARKET`,`Where buyers meet sellers`],[`REVENUE`,`Money a business brings in`],[`HYPOTHESIS`,`A testable prediction`],
+  [`DEADLINE`,`The thing you are racing right now`],[`COFFEE`,`The unofficial fuel of every master's student`]
+];
+const WORRIES=[`Deadline`,`Reply-all email`,`Group project`,`Traffic`,`Thesis chapter`,`Laundry`,`9 am meeting`,`Wi-Fi dropped`,`Inbox 99+`,`Missed call`,`Citation format`,`Rent due`,`Lab report`,`Presentation`,`Overtime`,`Surprise quiz`];
+const TILE_COLORS=['var(--t-sky)','var(--t-sun)','var(--t-leaf)','var(--t-bloom)','var(--t-lav)'];
+
+const SPECIES=[
+  {id:'moon',name:'Moon Lily',c:'#d8ccff',d:'#7b61d9',n:6,rx:5,ry:12},
+  {id:'ember',name:'Ember Poppy',c:'#ff7b6b',d:'#ffd166',n:5,rx:8,ry:11},
+  {id:'daisy',name:'Sun Daisy',c:'#ffd166',d:'#a9641a',n:10,rx:3.6,ry:11},
+  {id:'mint',name:'Mint Star',c:'#7df0c4',d:'#fff3b0',n:8,rx:4,ry:11},
+  {id:'bell',name:'Sky Bell',c:'#8fcbff',d:'#ffffff',n:5,rx:7,ry:12},
+  {id:'rose',name:'Rose Quartz',c:'#ff9db9',d:'#ffe7ef',n:7,rx:6,ry:11}
+];
+const COST=[20,15,20];
+const TITLES=['Seedling','Sprout','Sapling','Budding Mind','Bloomer','Gardener','Grove Keeper','Wise Willow','Evergreen','Master of Bloom'];
+const MOODS=[
+  {id:1,label:'Drained',tile:'var(--t-lav)',rec:'breathe',line:'Low battery. Start with one minute of slow breathing.'},
+  {id:2,label:'Stressed',tile:'var(--t-bloom)',rec:'pop',line:'Tense? Pop a few worries first. Watching them float away feels better than holding them.'},
+  {id:3,label:'Okay',tile:'var(--t-sky)',rec:'quiz',line:'A steady day. A quick round of Brain Snacks fits right in.'},
+  {id:4,label:'Good',tile:'var(--t-leaf)',rec:'word',line:'Nice. Put that clear head to work on a few Word Bloom puzzles.'},
+  {id:5,label:'Great',tile:'var(--t-sun)',rec:'memory',line:'Love it. Test your focus with Concept Pairs.'}
+];
+const QUEST_POOL=[
+  {id:'quiz',t:'Finish a Brain Snacks round',goal:1,sun:25,evt:'quiz'},
+  {id:'right',t:'Get 8 quiz answers right',goal:8,sun:30,evt:'right'},
+  {id:'pop',t:'Pop 20 worries',goal:20,sun:25,evt:'pop'},
+  {id:'breathe',t:'Take a one-minute breathing break',goal:1,sun:25,evt:'breathe'},
+  {id:'word',t:'Solve 4 words in Word Bloom',goal:4,sun:30,evt:'word'},
+  {id:'match',t:'Clear a Concept Pairs board',goal:1,sun:25,evt:'match'},
+  {id:'water',t:'Water a plant in your garden',goal:1,sun:20,evt:'water'}
+];
+const QUEST={};QUEST_POOL.forEach(q=>QUEST[q.id]=q);
+const ACH=[
+  {id:'first',n:'First Bloom',d:'Grow a plant to full bloom',t:()=>S.stats.blooms>=1},
+  {id:'curious',n:'Curious Mind',d:'Answer 25 quiz questions correctly',t:()=>S.stats.quizRight>=25},
+  {id:'flawless',n:'Flawless',d:'Score 6 out of 6 in a quiz round',t:()=>S.stats.perfect>=1},
+  {id:'popper',n:'Worry Popper',d:'Pop 100 worries',t:()=>S.stats.pops>=100},
+  {id:'wordsmith',n:'Wordsmith',d:'Solve 30 words',t:()=>S.stats.words>=30},
+  {id:'breath',n:'Deep Breaths',d:'Finish 5 breathing sessions',t:()=>S.stats.breaths>=5},
+  {id:'three',n:'Three in a Row',d:'Reach a 3-day streak',t:()=>S.streak>=3},
+  {id:'week',n:'Week of Calm',d:'Reach a 7-day streak',t:()=>S.streak>=7},
+  {id:'full',n:'Full Garden',d:'Plant all 12 plots',t:()=>S.plots.every(Boolean)},
+  {id:'owl',n:'Night Owl',d:'Finish a game after 11 pm',t:()=>S.owl},
+  {id:'bright',n:'Bright Mind',d:'Reach level 5',t:()=>levelInfo(S.xp).lvl>=5}
+];
+const PAIRS_URDU=[
+  [`درمیانی قدر`,`ترتیب کی بیچ والی قدر`],[`مفروضہ`,`جانچنے کے قابل اندازہ`],[`مہنگائی`,`قیمتوں میں عمومی اضافہ`],[`اسٹیک`,`آخری آیا، پہلے نکلا`],
+  [`قطار`,`پہلے آیا، پہلے نکلا`],[`موقع کی لاگت`,`چھوڑا گیا اگلا بہترین انتخاب`],[`اسپرنٹ`,`کام کا مختصر مقررہ دور`],[`اوورفٹنگ`,`ڈیٹا کا شور یاد کر لینا`],
+  [`مخفی عامل`,`تیسرا پوشیدہ متغیر`],[`مائٹوکانڈریا`,`خلیے کا توانائی گھر`],[`وقفے سے دہرائی`,`وقفوں کے ساتھ دہرانا`],[`یاد سے جواب دینا`,`خود کو یادداشت سے جانچنا`],
+  [`تعصب`,`منظم انداز کی غلطی`],[`تاخیر`,`جواب آنے میں وقفہ`],[`خفیہ کاری`,`رازداری کے لیے معلومات بدلنا`],[`وسعت پذیری`,`بڑھتے کام کو سنبھالنا`],
+  [`معیاری پیمانہ`,`موازنہ کرنے کا معیار`],[`ماہرانہ جائزہ`,`ماہرین کی جانچ`],[`تغیر`,`ڈیٹا کا پھیلاؤ`],[`حصہ داری`,`ملکیت میں حصہ`],
+  [`نقد پذیری`,`نقد میں بدلنے کی آسانی`],[`ہم آہنگی`,`مل کر بہتر نتیجہ`],[`ذہنی قاعدہ`,`سوچنے کا مختصر راستہ`],[`نظریاتی ڈھانچہ`,`غالب فکری نظام`]
+];
+const WORDS_URDU=[
+  [`مقالہ`,`ڈگری کے اختتام پر لکھا جانے والا طویل تحقیقی کام`],[`طریقہ`,`ڈیٹا جمع کرنے اور تجزیہ کرنے کا انداز`],[`نمونہ`,`آبادی کا وہ حصہ جس کا مطالعہ کیا جائے`],
+  [`متغیر`,`تجربے میں بدل سکنے والی چیز`],[`خلاصہ`,`تحقیقی مقالے کے آغاز میں دیا گیا مختصر تعارف`],[`حوالہ`,`استعمال کیے گئے ماخذ کا اعتراف`],
+  [`جریدہ`,`جہاں ماہرین کی جانچ شدہ تحقیق شائع ہوتی ہے`],[`تجویز`,`تحقیق شروع ہونے سے پہلے اس کا منصوبہ`],[`مذاکرہ`,`چھوٹے گروپ میں تعلیمی گفتگو`],
+  [`خاکہ`,`آپ کی دلیل کی بنیادی ساخت`],[`منصوبہ`,`آخری بڑا تعلیمی منصوبہ`],[`الگورتھم`,`کمپیوٹر کے لیے مرحلہ وار ہدایات`],
+  [`حکمت`,`طویل مدتی مقصد تک پہنچنے کا منصوبہ`],[`تجزیہ`,`خام ڈیٹا سے مفید مطلب نکالنا`],[`رابطہ`,`آپس میں جڑے لوگوں یا کمپیوٹروں کا نظام`],
+  [`بازار`,`وہ جگہ جہاں خریدار اور فروخت کنندہ ملیں`],[`آمدنی`,`کاروبار میں آنے والی رقم`],[`مفروضہ`,`جانچنے کے قابل پیش گوئی`],
+  [`میعاد`,`کام مکمل کرنے کی آخری مقررہ تاریخ`],[`کافی`,`طلبہ کے کام کاج کا مقبول گرم مشروب`]
+];
+const WORRIES_URDU=[`آخری تاریخ`,`سب کو جواب والی ای میل`,`گروپ کا کام`,`ٹریفک`,`مقالے کا باب`,`کپڑے دھونا`,`صبح نو بجے کی میٹنگ`,`وائی فائی بند`,`99 سے زیادہ پیغامات`,`چھوٹی ہوئی کال`,`حوالے کی ترتیب`,`کرایہ ادا کرنا`,`لیب رپورٹ`,`پیشکش`,`اضافی کام`,`اچانک کوئز`];
+const CATS_URDU={research:'تحقیق اور اعدادوشمار',business:'کاروبار',tech:'ٹیکنالوجی اور ڈیٹا',mind:'سیکھنا اور ذہن',world:'دنیا اور سائنس'};
+Object.assign(URDU_TEXT,{
+  'Sun you have collected':'آپ کے جمع کردہ سن','Your level':'آپ کا لیول','Close game':'کھیل بند کریں','Main':'مرکزی','Topic':'موضوع','Say hello to Pip, your garden buddy':'پِپ، اپنے باغی ساتھی کو سلام کہیں',
+  'Forgot code? Set a new one':'کوڈ بھول گئے؟ نیا کوڈ بنائیں','Change code':'کوڈ تبدیل کریں','Protect your saved garden':'اپنے محفوظ باغ کی حفاظت کریں','Your existing level, garden and rewards are still here. Set a resume code to reopen this profile on this browser.':'آپ کا لیول، باغ اور انعامات محفوظ ہیں۔ اس براؤزر میں پروفائل دوبارہ کھولنے کے لیے کوڈ بنائیں۔','Create a 6-digit resume code':'چھ ہندسوں کا دوبارہ داخلے کا کوڈ بنائیں','Confirm your code':'کوڈ کی تصدیق کریں','Save code and continue':'کوڈ محفوظ کرکے جاری رکھیں','The code works only with progress stored in this browser. It is not cloud backup.':'یہ کوڈ صرف اسی براؤزر میں محفوظ پیش رفت کھولتا ہے؛ یہ کلاؤڈ بیک اپ نہیں۔','Enter the same 6-digit code in both boxes.':'دونوں خانوں میں ایک جیسا چھ ہندسوں کا کوڈ لکھیں۔','Please enter your name.':'اپنا نام درج کریں۔','Continue your garden':'اپنے باغ کا سفر جاری رکھیں','Your level and progress are saved on this browser. Enter your name and resume code to continue.':'آپ کا لیول اور پیش رفت اسی براؤزر میں محفوظ ہیں۔ جاری رکھنے کے لیے نام اور کوڈ درج کریں۔','6-digit resume code':'چھ ہندسوں کا دوبارہ داخلے کا کوڈ','Your code':'آپ کا کوڈ','Continue':'جاری رکھیں','Name or code did not match this saved profile. Try again.':'نام یا کوڈ اس محفوظ پروفائل سے نہیں ملا۔ دوبارہ کوشش کریں۔','This code only unlocks saved data on this browser. If browser data is cleared, a code alone cannot restore it.':'یہ کوڈ صرف اسی براؤزر کا محفوظ ڈیٹا کھولتا ہے۔ براؤزر ڈیٹا مٹ جائے تو صرف کوڈ سے واپسی ممکن نہیں۔',
+  'Ambient soundtrack':'پس منظر کی موسیقی','Soft piano':'مدھم پیانو نما دھن','Warm pads':'گرم نرم دھن','Quiet breeze':'ہلکی ہوا','Music volume':'موسیقی کی آواز','Dawn':'صبح','Garden':'باغ','Sunset':'غروبِ آفتاب','Midnight':'آدھی رات','Reviews & suggestions':'آراء اور تجاویز','Your feedback is saved on this device and is not public. Share it with me on WhatsApp if you want me to receive it.':'آپ کی رائے اسی آلے میں نجی طور پر محفوظ ہوتی ہے۔ مجھے بھیجنے کے لیے WhatsApp استعمال کریں۔','Type':'قسم','Suggestion':'تجویز','Review':'جائزہ','Report a problem':'مسئلہ رپورٹ کریں','Rating':'درجہ','No rating':'درجہ نہیں','Your message':'آپ کا پیغام','What should we improve?':'ہم کیا بہتر کر سکتے ہیں؟','Save privately':'نجی طور پر محفوظ کریں','WhatsApp me':'مجھے WhatsApp کریں','Contact me on WhatsApp':'WhatsApp پر رابطہ کریں','Feedback saved on this device':'رائے اسی آلے میں محفوظ ہوگئی',
+  'Protect your saved garden':'اپنے محفوظ باغ کی حفاظت کریں','Your existing level, garden and rewards are still here. Set a resume code to reopen this profile on this browser.':'آپ کا لیول، باغ اور انعامات محفوظ ہیں۔ اس براؤزر میں پروفائل دوبارہ کھولنے کے لیے کوڈ بنائیں۔','Create a 6-digit resume code':'چھ ہندسوں کا دوبارہ داخلے کا کوڈ بنائیں','Confirm your code':'کوڈ کی تصدیق کریں','Save code and continue':'کوڈ محفوظ کرکے جاری رکھیں','The code works only with progress stored in this browser. It is not cloud backup.':'یہ کوڈ صرف اسی براؤزر میں محفوظ پیش رفت کھولتا ہے؛ یہ کلاؤڈ بیک اپ نہیں۔','Enter the same 6-digit code in both boxes.':'دونوں خانوں میں ایک جیسا چھ ہندسوں کا کوڈ لکھیں۔','Please enter your name.':'اپنا نام درج کریں۔','Continue your garden':'اپنے باغ کا سفر جاری رکھیں','Your level and progress are saved on this browser. Enter your name and resume code to continue.':'آپ کا لیول اور پیش رفت اسی براؤزر میں محفوظ ہیں۔ جاری رکھنے کے لیے نام اور کوڈ درج کریں۔','6-digit resume code':'چھ ہندسوں کا دوبارہ داخلے کا کوڈ','Your code':'آپ کا کوڈ','Continue':'جاری رکھیں','Name or code did not match this saved profile. Try again.':'نام یا کوڈ اس محفوظ پروفائل سے نہیں ملا۔ دوبارہ کوشش کریں۔','This resume code only unlocks saved data on this browser. If browser data is cleared, a code alone cannot restore it.':'یہ کوڈ صرف اسی براؤزر کا محفوظ ڈیٹا کھولتا ہے۔ براؤزر ڈیٹا مٹ جائے تو صرف کوڈ سے واپسی ممکن نہیں۔','Change code':'کوڈ تبدیل کریں',
+  'Ambient soundtrack':'پس منظر کی موسیقی','Soft piano':'مدھم پیانو','Warm pads':'گرم نرم دھن','Quiet breeze':'ہلکی ہوا','Music volume':'موسیقی کی آواز','Dawn':'صبح','Garden':'باغ','Sunset':'غروبِ آفتاب','Midnight':'آدھی رات','Auto':'خودکار',
+  'Reviews & suggestions':'آراء اور تجاویز','Your feedback is saved on this device and is not public. Share it with me on WhatsApp if you want me to receive it.':'آپ کی رائے اسی آلے میں نجی طور پر محفوظ ہوتی ہے۔ مجھے بھیجنے کے لیے WhatsApp استعمال کریں۔','Type':'قسم','Suggestion':'تجویز','Review':'جائزہ','Report a problem':'مسئلہ رپورٹ کریں','Rating':'درجہ','No rating':'درجہ نہیں','Your message':'آپ کا پیغام','What should we improve?':'ہم کیا بہتر کر سکتے ہیں؟','Save privately':'نجی طور پر محفوظ کریں','WhatsApp me':'مجھے WhatsApp کریں','Contact me on WhatsApp':'WhatsApp پر رابطہ کریں','Feedback saved on this device':'رائے اسی آلے میں محفوظ ہوگئی','WhatsApp chat':'WhatsApp گفتگو',
+  'Not quite. Tap a letter to swap it out.':'ابھی درست نہیں۔ حرف بدلنے کے لیے کسی حرف کو چھوئیں۔',
+  'Your daily reset':'آج کا پُرسکون لمحہ','Good morning':'صبح بخیر','Good afternoon':'دوپہر بخیر','Good evening':'شام بخیر','Late night':'رات کافی ہو گئی','Up late':'رات کافی ہو گئی',
+  'Three minutes is enough. Pick something small and let the rest of the day wait.':'صرف تین منٹ کافی ہیں۔ کوئی چھوٹا سا کام چنیں، باقی دن کو ابھی انتظار کرنے دیں۔','You showed up today. That already counts.':'آج آپ نے وقت نکالا، یہی کافی ہے۔',
+  'How is your head right now?':'اس وقت آپ کیسا محسوس کر رہے ہیں؟','How are you feeling':'آپ کیسا محسوس کر رہے ہیں؟','Drained':'تھکے ہوئے','Stressed':'پریشان','Okay':'ٹھیک','Good':'اچھا','Great':'بہت اچھا',
+  'We can keep it soft today. No rush.':'آج آہستہ چلتے ہیں، کوئی جلدی نہیں۔','Let’s let one small worry float away.':'آئیے ایک چھوٹی پریشانی کو جانے دیں۔','Steady is a lovely place to start.':'پرسکون آغاز بھی بہت اچھا ہے۔','A good day for a little growth.':'آج کچھ نیا سیکھنے کا اچھا دن ہے۔','Your joy looks bright today.':'آج آپ کی خوشی نمایاں ہے۔',
+  'Hi, I’m Pip. Tap me for a little company.':'سلام! میں پِپ ہوں۔ بات کرنے کے لیے مجھے چھوئیں۔','Tiny steps still count.':'چھوٹے قدم بھی اہم ہوتے ہیں۔','I’m glad you stopped by.':'اچھا لگا کہ آپ یہاں آئے۔','Your garden can wait while you rest.':'آپ آرام کریں، باغ انتظار کر سکتا ہے۔','Want to grow one small thing today?':'آج کچھ چھوٹا سا اگائیں؟',
+  'day streak':'مسلسل دن','day streak · play today to keep it':'دن کی لڑی · آج کھیلیں تاکہ جاری رہے',' · play today to keep it':' · جاری رکھنے کے لیے آج کھیلیں','Rest tokens':'آرام کے ٹوکن','A rest token covers one missed day':'آرام کا ایک ٹوکن چھوٹا ہوا دن سنبھال لیتا ہے',
+  'Today’s quests':'آج کے مشن','Today\'s quests':'آج کے مشن','Finish all three quests to unlock a surprise.':'سرپرائز کھولنے کے لیے تینوں مشن مکمل کریں۔','Your reward is ready. What is inside?':'آپ کا انعام تیار ہے۔ دیکھیے اندر کیا ہے۔','Opened today. A new one arrives tomorrow.':'آج کھل گیا۔ نیا انعام کل آئے گا۔',
+  'Finish a Brain Snacks round':'دماغی سوالات کا ایک راؤنڈ مکمل کریں','Get 8 quiz answers right':'کوئز کے 8 درست جواب دیں','Pop 20 worries':'20 پریشانیاں ختم کریں','Take a one-minute breathing break':'ایک منٹ سانس کی مشق کریں','Solve 4 words in Word Bloom':'لفظوں کے باغ میں 4 لفظ حل کریں','Clear a Concept Pairs board':'تصور کے جوڑوں کا بورڈ مکمل کریں','Water a plant in your garden':'باغ میں ایک پودے کو پانی دیں',
+  'Done':'مکمل','Claim':'حاصل کریں','Bloom Box':'پھولوں کا تحفہ','Open':'کھولیں','Collect':'جمع کریں','Collected today':'آج جمع کیا','Locked':'ابھی دستیاب نہیں','Plant · ':'پودا لگائیں · ','Water · ':'پانی دیں · ','In bloom':'کھلا ہوا پھول','Plant':'پودا لگائیں','Water':'پانی دیں','Empty plot':'خالی جگہ','Daily harvest':'آج کی فصل','Bloom a plant to unlock this':'اسے حاصل کرنے کے لیے پودا کھلائیں','Tap an empty plot to plant. Tap a plant to water it.':'خالی جگہ چھو کر بیج لگائیں؛ پودے کو چھو کر پانی دیں۔','Tap any plot to plant your first seed. You have enough sun to grow it right now.':'پہلا بیج لگانے کے لیے کوئی جگہ چھوئیں۔ ابھی آپ کے پاس کافی سن ہے۔','Your garden':'آپ کا باغ','Flower collection':'پھولوں کا مجموعہ','Undiscovered':'ابھی دریافت نہیں ہوا','found':'دریافت ہوئے',
+  'Pick a game':'ایک کھیل چنیں','Every game is short, with no timers on the learning ones and no lives to lose.':'ہر کھیل مختصر ہے۔ سیکھنے والے کھیلوں میں وقت کی پابندی یا جانیں ختم ہونے کا دباؤ نہیں۔','Brain Snacks':'دماغی سوالات','Concept Pairs':'تصور کے جوڑے','Word Bloom':'لفظوں کا باغ','Pop the Worries':'پریشانیاں چھوڑیں','Slow Breath':'آہستہ سانس',
+  'Knowledge':'علم','Focus':'توجہ','Vocabulary':'الفاظ','Stress relief':'ذہنی سکون','Calm':'سکون','Research & stats':'تحقیق اور اعدادوشمار','Business':'کاروبار','Tech & data':'ٹیکنالوجی اور ڈیٹا','Learning & mind':'سیکھنا اور ذہن','World & science':'دنیا اور سائنس',
+  'Six bite-size questions on research, business, tech, and learning. No timer. Every answer comes with a quick explanation.':'تحقیق، کاروبار، ٹیکنالوجی اور سیکھنے کے بارے میں چھ مختصر سوال۔ وقت کی پابندی نہیں؛ ہر جواب کے ساتھ آسان وضاحت ہے۔','Match each term with its meaning. Peek once if you get stuck.':'ہر اصطلاح کو اس کے مطلب سے ملائیں۔ مشکل ہو تو ایک بار جھانک سکتے ہیں۔','Unscramble five academic words from a clue. Ask for a hint whenever you like.':'اشارے سے پانچ تعلیمی لفظ بنائیں۔ جب چاہیں اشارہ لیں۔','Tap worries as they float up. The ones you miss drift away on their own.':'اوپر آتی پریشانیوں کو چھوئیں۔ جو رہ جائیں وہ خود ہی چلی جاتی ہیں۔','Five slow breaths. Follow the circle and let your shoulders drop.':'پانچ آہستہ سانس۔ دائرے کے ساتھ سانس لیں اور کندھوں کو ڈھیلا چھوڑیں۔',
+  'Home':'گھر','Play':'کھیلیں','Garden':'باغ','Me':'میری جگہ','Your name':'آپ کا نام','Name':'نام','Age group':'عمر کا گروپ','Age group (optional)':'عمر کا گروپ (اختیاری)','Choose age group':'عمر کا گروپ چنیں','Choose age group (optional)':'عمر کا گروپ چنیں (اختیاری)','Under 18':'18 سال سے کم','18–24':'18–24 سال','25–34':'25–34 سال','35–44':'35–44 سال','45+':'45 سال سے زیادہ',
+  'Games played':'کھیلے گئے کھیل','Quiz answers right':'درست کوئز جواب','Worries popped':'چھوڑی گئی پریشانیاں','Words solved':'حل کیے گئے لفظ','Breath sessions':'سانس کی مشقیں','Blooms grown':'کھلے ہوئے پھول','Mood this week':'اس ہفتے کا مزاج','Badges':'اعزازات','Settings':'ترتیبات','Sound effects':'آواز کے اثرات','Slow ambient music':'مدھم پس منظر موسیقی','Theme':'رنگ روپ','Reset progress':'پیش رفت مٹائیں','Reset':'ری سیٹ','On':'چالو','Off':'بند','Auto':'خودکار','Light':'روشن','Dark':'گہرا','Language':'زبان','English':'انگریزی','Reset progress?':'پیش رفت مٹائیں؟','Yes, erase':'ہاں، مٹا دیں','Keep it':'رہنے دیں',
+  'Your profile and progress stay in this browser. Age group is optional; no birth date is collected. Ambient music starts only when enabled. A break reminder appears after 25 minutes.':'آپ کی معلومات اسی براؤزر میں محفوظ رہتی ہیں۔ عمر دینا اختیاری ہے؛ تاریخِ پیدائش نہیں لی جاتی۔ موسیقی خودکار طور پر نہیں چلتی۔ 25 منٹ بعد وقفے کی یاد دہانی ملے گی۔',
+  'Level':'لیول','Seedling':'ننھا پودا','Sprout':'کونپل','Sapling':'ننھا درخت','Budding Mind':'نکھرتا ذہن','Bloomer':'کھلتا پھول','Gardener':'باغبان','Grove Keeper':'باغ کا رکھوالا','Wise Willow':'دانا درخت','Evergreen':'ہمیشہ سرسبز','Master of Bloom':'پھولوں کا ماہر',
+  'First Bloom':'پہلا پھول','Grow a plant to full bloom':'پودے کو پورا کھلائیں','Curious Mind':'جستجو والا ذہن','Answer 25 quiz questions correctly':'کوئز کے 25 سوال درست حل کریں','Flawless':'بے عیب','Score 6 out of 6 in a quiz round':'ایک راؤنڈ میں 6 میں سے 6 نمبر لیں','Worry Popper':'پریشانیوں سے نجات','Pop 100 worries':'100 پریشانیاں چھوڑیں','Wordsmith':'لفظوں کا ماہر','Solve 30 words':'30 لفظ حل کریں','Deep Breaths':'گہری سانسیں','Finish 5 breathing sessions':'سانس کی 5 مشقیں مکمل کریں','Three in a Row':'مسلسل تین دن','Reach a 3-day streak':'تین دن کی لڑی بنائیں','Week of Calm':'سکون کا ہفتہ','Reach a 7-day streak':'سات دن کی لڑی بنائیں','Full Garden':'بھرا ہوا باغ','Plant all 12 plots':'تمام 12 جگہوں پر پودے لگائیں','Night Owl':'رات کا کھلاڑی','Finish a game after 11 pm':'رات 11 بجے کے بعد کھیل مکمل کریں','Bright Mind':'روشن ذہن','Reach level 5':'لیول 5 تک پہنچیں',
+  'Welcome to Mind Bloom':'مائنڈ بلوم میں خوش آمدید','A small garden that grows while you learn, breathe, and let go of the day. Here are 60 sun to plant your first seed.':'ایک چھوٹا باغ جہاں سیکھنے، سانس لینے اور دن کا بوجھ ہلکا کرنے سے پودے بڑھتے ہیں۔ پہلے بیج کے لیے آپ کے پاس 60 سن ہیں۔','What should we call you?':'ہم آپ کو کس نام سے پکاریں؟','Both are optional and saved only in this browser.':'دونوں اختیاری ہیں اور صرف اسی براؤزر میں محفوظ ہوتے ہیں۔','Let\'s grow':'آئیے بڑھیں','Let’s grow':'آئیے بڑھیں',
+  'Start':'شروع کریں','Back':'واپس','Play again':'دوبارہ کھیلیں','Next':'اگلا','See results':'نتائج دیکھیں','Hint':'اشارہ','Hint used':'اشارہ استعمال ہو گیا','Clear':'صاف کریں','Skip':'آگے جائیں','Peek (1)':'ایک بار جھانکیں','Peek (0)':'جھانکنے کا موقع ختم','Match each term, shown in the bold font, with its meaning.':'موٹے حروف میں دی گئی اصطلاح کو اس کے مطلب سے ملائیں۔','Moves':'چالیں','Pairs':'جوڑے','Get comfortable':'آرام سے بیٹھیں','Breathe in':'سانس اندر لیں','Hold':'روکیں','Breathe out':'سانس باہر چھوڑیں','End early':'ابھی ختم کریں','Tap a worry to let it go':'پریشانی کو چھوڑنے کے لیے اسے چھوئیں','let go':'چھوڑ دیں','slow breaths':'آہستہ سانسیں','correct answers':'درست جواب','moves to clear the board':'بورڈ مکمل کرنے کی چالیں','words solved':'حل کیے گئے لفظ','worries let go':'چھوڑی گئی پریشانیاں',
+  'Right!':'درست!','Nice one.':'بہت خوب۔','Exactly.':'بالکل درست۔','You got it.':'آپ نے درست جواب دیا۔','Close one.':'قریب تھے۔','Good try.':'اچھی کوشش۔','Not this time.':'اس بار نہیں۔','Right':'درست','Hint':'اشارہ','Hint used':'اشارہ استعمال ہوا','Clear':'صاف کریں','Skip':'چھوڑیں','Next':'اگلا','Play again':'دوبارہ کھیلیں','Back':'واپس',
+  'A p-value of 0.03 tells you...':'0.03 کی p-value کیا بتاتی ہے؟',
+  'The forgetting curve shows that memory...':'بھولنے کا منحنی خط کیا دکھاتا ہے؟',
+  'Start Slow Breath':'آہستہ سانس شروع کریں','Pop the Worries':'پریشانیاں چھوڑیں','What can I do in the garden?':'باغ میں کیا کر سکتا ہوں؟','I need a calm break':'مجھے سکون کا وقفہ چاہیے','How do the quests work?':'مشن کیسے کام کرتے ہیں؟',
+  'Your garden grows with sun. Open Garden, tap an empty plot to plant, then tap the growing plant to water it. A fully bloomed flower can be harvested once a day.':'سن سے آپ کا باغ بڑھتا ہے۔ باغ کھولیں، خالی جگہ چھو کر بیج لگائیں، پھر پودے کو پانی دیں۔ پورا کھلا پھول روز ایک بار جمع کیا جا سکتا ہے۔',
+  'I’m the friendly Mind Bloom app guide, so I can help with games, your garden, mood check-ins, rewards, and settings. I don’t have a connected AI service for general questions yet, but I can point you to the right part of the app.':'میں مائنڈ بلوم کا مددگار رہنما ہوں۔ کھیل، باغ، مزاج، انعامات اور ترتیبات سمجھا سکتا ہوں۔ عام سوالات کے لیے AI ابھی منسلک نہیں، مگر ایپ میں درست جگہ دکھا سکتا ہوں۔',
+  'I can’t open a direct WhatsApp chat yet because the app has not been given a contact number. Add a number with its country code to enable a private click-to-chat link.':'واٹس ایپ چیٹ کھولنے کے لیے ابھی رابطہ نمبر شامل نہیں کیا گیا۔ ملک کے کوڈ سمیت نمبر دیں تو نجی چیٹ کا لنک بنایا جا سکتا ہے۔',
+  'How do I grow flowers?':'پھول کیسے اگاؤں؟','Open Garden':'باغ کھولیں','Open My Profile':'میری پروفائل کھولیں','Open sound settings':'آواز کی ترتیبات کھولیں','Show me the games':'کھیل دکھائیں','Show me around':'ایپ دکھائیں','Browse games':'کھیل دیکھیں','View badges':'اعزازات دیکھیں','See today’s quests':'آج کے مشن دیکھیں',
+  'Bloom Guide':'پھولوں کا رہنما','Here to help you find your way':'راستہ دکھانے کے لیے حاضر','Ask about Mind Bloom':'مائنڈ بلوم کے بارے میں پوچھیں','Ask me about the app…':'ایپ کے بارے میں پوچھیں…','Close guide':'رہنما بند کریں','Open Mind Bloom guide':'مائنڈ بلوم رہنما کھولیں','Send message':'پیغام بھیجیں',
+  'Hey':'سلام','For a gentle reset, Slow Breath guides you through five unhurried breaths. Pop the Worries is another quick way to let some tension go.':'سکون کے لیے آہستہ سانس کی مشق میں پانچ نرم سانس لیں۔ پریشانیاں چھوڑیں بھی ذہنی تناؤ کم کرنے کا مختصر طریقہ ہے۔','Brain Snacks is a short six-question quiz. Pick a topic, answer at your own pace, and each answer comes with an explanation.':'دماغی سوالات چھ سوالوں کا مختصر کوئز ہے۔ موضوع چنیں، اپنی رفتار سے جواب دیں، اور ہر جواب کی وضاحت پڑھیں۔','Word Bloom gives you a clue and scrambled letters. Tap letters in order; use Hint if you get stuck, or Clear to start the word again.':'لفظوں کا باغ ایک اشارہ اور بکھرے حروف دیتا ہے۔ حروف ترتیب سے چھوئیں؛ مشکل ہو تو اشارہ لیں یا دوبارہ شروع کریں۔','Concept Pairs asks you to match six terms with their meanings. You get one Peek if you want a quick reminder.':'تصور کے جوڑوں میں چھ اصطلاحات کو ان کے مطلب سے ملائیں۔ یاد دہانی کے لیے ایک بار جھانک سکتے ہیں۔','Pop the Worries is a 30-second activity. Tap the floating worries to let them drift away; missing one is no problem.':'پریشانیاں چھوڑیں 30 سیکنڈ کی سرگرمی ہے۔ تیرتی پریشانیوں کو چھو کر جانے دیں؛ کوئی رہ جائے تو فکر نہ کریں۔','On Home, choose the mood that fits best today. I use it to suggest a matching activity; you can change it later, and the history stays in this browser.':'گھر پر آج کے مطابق اپنا مزاج چنیں۔ اسی حساب سے سرگرمی تجویز ہوگی؛ بعد میں بدل بھی سکتے ہیں۔ تاریخ اسی براؤزر میں محفوظ ہے۔','Daily quests give sun when you complete and claim them. Sun plants and waters flowers; XP raises your level. Your streak tracks days you play, and badges mark milestones.':'روزانہ مشن مکمل کرکے سن حاصل کریں۔ سن سے پودے لگتے اور بڑھتے ہیں؛ XP سے لیول بڑھتا ہے۔ دنوں کی لڑی اور اعزازات آپ کی پیش رفت دکھاتے ہیں۔','You can edit your name and optional age group under Me. No birth date is collected; profile and progress are stored in this browser only.':'میری جگہ میں نام اور اختیاری عمر بدل سکتے ہیں۔ تاریخِ پیدائش نہیں لی جاتی؛ پروفائل اور پیش رفت اسی براؤزر میں رہتی ہے۔','Slow ambient music and game sound effects have separate controls under Me → Settings. Music starts only after you turn it on, because browsers block autoplay.':'میری جگہ → ترتیبات میں پس منظر موسیقی اور کھیل کی آواز الگ الگ بند یا چالو کریں۔ براؤزر کی وجہ سے موسیقی خودکار نہیں چلتی۔'
+});
+QUESTIONS.forEach((q,i)=>{const u=QUESTION_URDU[i];URDU_TEXT[q.q]=u[0];q.o.forEach((option,j)=>URDU_TEXT[option]=u[1][j]);URDU_TEXT[q.e]=u[2];});
+PAIRS.forEach((pair,i)=>{URDU_TEXT[pair[0]]=PAIRS_URDU[i][0];URDU_TEXT[pair[1]]=PAIRS_URDU[i][1];});
+MOODS.forEach((m,i)=>{URDU_TEXT[m.label]=['تھکے ہوئے','پریشان','ٹھیک','اچھا','بہت اچھا'][i];URDU_TEXT[m.line]=['بیٹری کم ہے؟ ایک منٹ آہستہ سانس لیں۔','تناؤ ہے؟ چند پریشانیاں چھوڑ دیں؛ انہیں دور جاتا دیکھنا اچھا لگتا ہے۔','آج کا دن متوازن ہے۔ دماغی سوالات کا مختصر راؤنڈ مناسب ہے۔','اچھا محسوس ہو رہا ہے؟ لفظوں کے باغ میں چند لفظ حل کریں۔','بہترین! تصور کے جوڑوں سے اپنی توجہ آزمائیں۔'][i];});
+QUEST_POOL.forEach(q=>{URDU_TEXT[q.t]=({quiz:'دماغی سوالات کا ایک راؤنڈ مکمل کریں',right:'کوئز کے 8 درست جواب دیں',pop:'20 پریشانیاں ختم کریں',breathe:'ایک منٹ سانس کی مشق کریں',word:'لفظوں کے باغ میں 4 لفظ حل کریں',match:'تصور کے جوڑوں کا بورڈ مکمل کریں',water:'باغ میں ایک پودے کو پانی دیں'})[q.id];});
+ACH.forEach((a,i)=>{const names=['پہلا پھول','جستجو والا ذہن','بے عیب','پریشانیوں سے نجات','لفظوں کا ماہر','گہری سانسیں','مسلسل تین دن','سکون کا ہفتہ','بھرا ہوا باغ','رات کا کھلاڑی','روشن ذہن'];const desc=['پودے کو پورا کھلائیں','کوئز کے 25 سوال درست حل کریں','ایک راؤنڈ میں 6 میں سے 6 نمبر لیں','100 پریشانیاں چھوڑیں','30 لفظ حل کریں','سانس کی 5 مشقیں مکمل کریں','تین دن کی لڑی بنائیں','سات دن کی لڑی بنائیں','تمام 12 جگہوں پر پودے لگائیں','رات 11 بجے کے بعد کھیل مکمل کریں','لیول 5 تک پہنچیں'];URDU_TEXT[a.n]=names[i];URDU_TEXT[a.d]=desc[i];});
+SPECIES.forEach((sp,i)=>URDU_TEXT[sp.name]=['چاندنی کنول','شعلہ پوست','سورج گل','پودینے کا ستارہ','آسمانی گھنٹی','گلابی پتھر'][i]);
+Object.keys(CATS).forEach(k=>URDU_TEXT[CATS[k]]=CATS_URDU[k]);
+Object.assign(URDU_TEXT,{
+  'New':'نیا','Mixed':'مخلوط','Start':'شروع کریں','Lovely':'خوب','Seed planted':'بیج لگا دیا گیا','Growing nicely':'اچھی طرح بڑھ رہا ہے','Collected today':'آج جمع کیا','Done':'مکمل','Hint used':'اشارہ استعمال ہو گیا',
+  'Flawless. That brain is on fire.':'کمال! آپ کا ذہن خوب کام کر رہا ہے۔','Strong round. That knowledge is banked.':'بہترین راؤنڈ؛ یہ علم یاد رہے گا۔','Solid effort. Those explanations will stick.':'اچھی کوشش؛ وضاحتیں یاد رکھنے میں مدد دیں گی۔','Rough round, good learning. Every miss is a memory in progress.':'مشکل راؤنڈ، مگر اچھی سیکھ۔ ہر غلطی سے یادداشت بنتی ہے۔',
+  'Sharp memory. Hardly a wasted flip.':'تیز یادداشت! تقریباً ہر چال کامیاب رہی۔','Nicely done. Your focus is working.':'خوب کیا؛ آپ کی توجہ اچھا کام کر رہی ہے۔','Cleared it. Patience wins this one.':'بورڈ مکمل! صبر کام آیا۔','A real wordsmith. Your vocabulary is blooming.':'آپ لفظوں کے ماہر ہیں؛ ذخیرۂ الفاظ بڑھ رہا ہے۔','Good work. A few more rounds and these will feel easy.':'اچھا کام! چند راؤنڈ اور کھیلیں تو یہ آسان لگیں گے۔','Every word you saw is now a little more familiar.':'اب ہر دیکھا ہوا لفظ پہلے سے کچھ زیادہ مانوس ہے۔',
+  'Deep breath out. The sky looks clearer already.':'گہری سانس باہر چھوڑیں؛ اب دل کچھ ہلکا ہے۔','Good release. Notice how your shoulders feel.':'اچھا کیا۔ دیکھیے کندھے کتنے ہلکے محسوس ہوتے ہیں۔','Even a few pops count. Unpopped worries drifted off by themselves.':'چند پریشانیاں چھوڑنا بھی کافی ہے؛ باقی خود ہی دور ہو جاتی ہیں۔','Shoulders down, jaw loose. That was one minute you gave back to yourself.':'کندھے ڈھیلے، جبڑا نرم۔ یہ ایک منٹ آپ نے اپنے لیے نکالا۔',
+  'Best combo':'بہترین مسلسل درست جواب','Sun earned':'حاصل کیے گئے سن','Pairs matched':'ملائے گئے جوڑے','Tap a worry to let it go':'پریشانی کو چھوڑنے کے لیے اسے چھوئیں','Match each term, shown in the bold font, with its meaning.':'موٹے حروف میں دی گئی اصطلاح کو اس کے مطلب سے ملائیں۔','Get comfortable':'آرام سے بیٹھیں','Breathe in':'سانس اندر لیں','Hold':'روکیں','Breathe out':'سانس باہر چھوڑیں','End early':'ابھی ختم کریں',
+  'A p-value is the probability of data this extreme if the null is true. It is not the probability that the null is true.':'p-value یہ امکان بتاتی ہے کہ null مفروضہ درست ہو تو اتنا غیرمعمولی ڈیٹا ملے۔ یہ null مفروضے کے درست ہونے کا امکان نہیں بتاتی۔','Simple random sampling draws members purely by chance, which limits selection bias.':'سادہ اتفاقی نمونے میں افراد اتفاق سے چنے جاتے ہیں، جس سے انتخاب کا تعصب کم ہوتا ہے۔','Type I is a false positive: rejecting a null that is actually true. Alpha sets the rate you tolerate.':'Type I غلطی ایک غلط مثبت نتیجہ ہے: ایسا null مفروضہ رد کرنا جو حقیقت میں درست ہو۔ Alpha قابلِ قبول غلطی کی حد بتاتا ہے۔',
+  'A confounder, like hot weather, can drive two variables that have no direct causal link.':'گرم موسم جیسا تیسرا عامل دو چیزوں کو بیک وقت بڑھا سکتا ہے، چاہے ان میں براہِ راست سبب و نتیجے کا تعلق نہ ہو۔','A good review shows the state of knowledge and where your question fits in.':'اچھا ادبی جائزہ موجودہ علم اور آپ کے سوال کی جگہ واضح کرتا ہے۔','The median depends on the middle rank, so one extreme value barely moves it.':'درمیانی قدر ترتیب کے وسط پر منحصر ہے، اس لیے ایک انتہائی قدر اسے بہت کم بدلتی ہے۔','The 95% describes the long-run procedure: repeat the study many times and about 95% of the intervals catch the true value.':'95٪ طویل مدتی طریقۂ کار کو بیان کرتا ہے: مطالعہ بار بار کریں تو تقریباً 95٪ وقفوں میں اصل قدر آئے گی۔','Thematic analysis codes qualitative data and groups the codes into themes.':'موضوعاتی تجزیے میں معیاری ڈیٹا کو کوڈ کرکے ملتے جلتے کوڈز سے موضوعات بنائے جاتے ہیں۔',
+  'Strengths and weaknesses live inside the organization. Opportunities and threats come from outside.':'خوبیاں اور کمزوریاں ادارے کے اندر ہوتی ہیں؛ مواقع اور خطرات باہر کے ماحول سے آتے ہیں۔','Often a minority of inputs, like customers or bugs, drives most of the outcome.':'اکثر چند عوامل، جیسے کچھ گاہک یا خرابیاں، زیادہ تر نتائج پیدا کرتے ہیں۔','Every choice costs you the best alternative you did not take.':'ہر انتخاب کی قیمت وہ بہترین متبادل ہے جسے آپ نے اختیار نہیں کیا۔','Below it you lose money. Above it you make a profit.':'اس مقام سے کم آمدنی پر نقصان اور اس سے زیادہ پر منافع ہوتا ہے۔',
+  'Each step halves the search range, so the number of steps grows with log n.':'ہر قدم پر تلاش کا حصہ آدھا رہ جاتا ہے، اس لیے قدموں کی تعداد log n کے مطابق بڑھتی ہے۔','It captures noise in the training set instead of the real pattern.':'ماڈل اصل پیٹرن کے بجائے تربیتی ڈیٹا کا اتفاقی شور بھی یاد کر لیتا ہے۔','Think of a pile of plates: you take the one you put on last.':'پلیٹوں کے ڈھیر میں جو پلیٹ آخر میں رکھی، وہ پہلے اٹھائی جاتی ہے۔','TLS encrypts the traffic so others on the network cannot read it.':'TLS بھیجے جانے والے ڈیٹا کو خفیہ کرتا ہے تاکہ دوسرے اسے نہ پڑھ سکیں۔','The model learns from inputs paired with the correct answers.':'ماڈل ایسے ان پٹس سے سیکھتا ہے جن کے ساتھ درست جواب بھی دیا گیا ہو۔','An API is a contract that describes the requests and responses allowed.':'API ایک معاہدہ ہے جو جائز درخواستوں اور جوابوں کا طریقہ بتاتا ہے۔',
+  'This is the spacing effect: well-timed reviews build stronger, longer-lasting memories.':'وقفے سے دہرانے کا اثر یہ ہے کہ مناسب وقت پر جائزہ لینے سے یادداشت مضبوط اور دیرپا ہوتی ہے۔','Pulling answers out of memory beats passive review for retention.':'یادداشت سے جواب نکالنے کی مشق محض دوبارہ پڑھنے سے بہتر ہے۔','The word "yet" frames skill as something that develops with effort and strategy.':'“ابھی” کا لفظ بتاتا ہے کہ مشق اور درست حکمتِ عملی سے مہارت بڑھ سکتی ہے۔','During sleep the brain replays and stores what you learned that day.':'نیند کے دوران دماغ نئی سیکھی ہوئی باتوں کو دہراتا اور محفوظ کرتا ہے۔','Overloading working memory blocks learning, so break material into manageable chunks.':'ذہنی یادداشت پر بوجھ سیکھنے میں رکاوٹ بنتا ہے، اس لیے مواد کو چھوٹے حصوں میں بانٹیں۔',
+  'Nitrogen is about 78% of the air. Oxygen is about 21%.':'ہوا میں تقریباً 78٪ نائٹروجن اور 21٪ آکسیجن ہوتی ہے۔','A value of 0 means perfect equality. A value of 1 means one person holds everything.':'صفر مکمل برابری اور ایک انتہائی ناہمواری کو ظاہر کرتا ہے۔','Ozone in the stratosphere absorbs much of the Sun\'s ultraviolet light.':'اسٹراٹوسفیئر کا اوزون سورج کی زیادہ تر بالائے بنفشی شعاعیں جذب کرتا ہے۔','Each unit of currency buys less than it did before.':'مہنگائی کے باعث ہر کرنسی یونٹ سے پہلے سے کم چیزیں خریدی جا سکتی ہیں۔','Einstein published it in 1915: gravity as the curvature of spacetime.':'آئن اسٹائن نے 1915 میں پیش کیا کہ کششِ ثقل، زمان و مکاں کے خم کی صورت ہے۔'
+});
+
+/* ================= state ================= */
+const KEY='mindbloom.v1';
+const defaults=()=>({
+  name:'',ageGroup:'',onboarded:false,lang:'en',resumeCodeHash:'',xp:0,sun:60,streak:0,best:0,last:'',rest:1,owl:false,
+  stats:{games:0,quizRight:0,pops:0,words:0,breaths:0,blooms:0,perfect:0},
+  bests:{quiz:0,memory:0,word:0,pop:0,breathe:0},
+  plots:Array(12).fill(null),disc:{},days:{},moods:{},mood:null,
+  quests:{date:'',list:[],chest:'locked'},harvest:'',ach:{},seen:[],sound:true,music:false,musicStyle:'piano',musicVolume:8,theme:'auto',feedback:[]
+});
+function load(){
+  try{
+    const r=localStorage.getItem(KEY);
+    if(r){const o=JSON.parse(r),d=defaults(),legacyMusic=!o.musicStyle;
+      const state=Object.assign(d,o,{stats:Object.assign(d.stats,o.stats||{}),bests:Object.assign(d.bests,o.bests||{})});
+      if(legacyMusic){state.music=false;state.musicStyle='piano';state.musicVolume=8;}
+      return state;}
+  }catch(e){}
+  return defaults();
+}
+let S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const WA_NUMBER='92334261042';
+function normalizeCode(value){return String(value||'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\D/g,'');}
+async function hashResumeCode(value){
+  const code=normalizeCode(value);
+  try{
+    if(window.crypto&&crypto.subtle){const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(code));return 'sha256:'+Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');}
+  }catch(e){}
+  let hash=2166136261;for(const ch of code){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619);}
+  return 'local:'+((hash>>>0).toString(16));
+}
+function whatsappUrl(message){return 'https://wa.me/'+WA_NUMBER+(message?'?text='+encodeURIComponent(message):'');}
+
+const englishText=new WeakMap(),englishAttrs=new WeakMap();
+function localizeText(value){
+  if(S.lang!=='ur')return value;
+  const leading=(value.match(/^\s*/)||[''])[0],trailing=(value.match(/\s*$/)||[''])[0];
+  const core=value.slice(leading.length,value.length-trailing.length);
+  if(!core)return value;
+  let result=URDU_TEXT[core];
+  if(!result){
+    let match;
+  if((match=core.match(/^Question (\d+) of (\d+)$/)))result='سوال '+match[1]+' / '+match[2];
+  else if((match=core.match(/^Word (\d+) of (\d+)$/)))result='لفظ '+match[1]+' / '+match[2];
+    else if((match=core.match(/^(\d+) of (\d+)$/)))result=match[2]+' میں سے '+match[1];
+    else if((match=core.match(/^(\d+) solved$/)))result=match[1]+' حل ہوئے';
+    else if((match=core.match(/^Moves (\d+) · Pairs (\d+)\/(\d+)$/)))result='چالیں '+match[1]+' · جوڑے '+match[2]+'/'+match[3];
+    else if((match=core.match(/^(\d+) let go$/)))result=match[1]+' پریشانیاں چھوڑیں';
+    else if((match=core.match(/^Breath (\d+) of (\d+)$/)))result='سانس '+match[1]+' میں سے '+match[2];
+    else if((match=core.match(/^Hint \((\d+) left\)$/)))result='اشارہ ('+match[1]+' باقی)';
+    else if((match=core.match(/^Lv (\d+)$/)))result='لیول '+match[1];
+    else if((match=core.match(/^Level (\d+): (.+)$/)))result='لیول '+match[1]+': '+(URDU_TEXT[match[2]]||match[2]);
+    else if((match=core.match(/^Level (\d+)$/)))result='لیول '+match[1];
+    else if((match=core.match(/^(\d+) \/ (\d+) XP$/)))result='تجربہ پوائنٹس '+match[1]+' / '+match[2];
+    else if((match=core.match(/^(\d+) of (\d+) rest tokens$/)))result='آرام کے ٹوکن '+match[1]+' / '+match[2];
+    else if((match=core.match(/^Card (\d+)$/)))result='کارڈ '+match[1];
+    else if((match=core.match(/^(.+), stage (\d+) of (\d+)$/)))result=(URDU_TEXT[match[1]]||match[1])+'، مرحلہ '+match[2]+' / '+match[3];
+    else if((match=core.match(/^([+]?[0-9]+) sun$/)))result=match[1]+' سن';
+    else if((match=core.match(/^([+]?[0-9]+) min$/)))result=match[1]+' منٹ';
+    else if((match=core.match(/^([+]?[0-9]+) sec$/)))result=match[1]+' سیکنڈ';
+    else if((match=core.match(/^([+]?[0-9]+)s$/)))result=match[1]+' سیکنڈ';
+    else if((match=core.match(/^Best (\d+)\/(\d+)$/)))result='بہترین: '+match[1]+' / '+match[2];
+    else if((match=core.match(/^Best (\d+) moves$/)))result='بہترین: '+match[1]+' چالیں';
+    else if((match=core.match(/^Best (\d+) popped$/)))result='بہترین: '+match[1]+' چھوڑیں';
+    else if((match=core.match(/^(\d+) sessions$/)))result=match[1]+' مشقیں';
+    else if((match=core.match(/^Best (.+)$/)))result='بہترین: '+match[1];
+    else if((match=core.match(/^x(\d+)$/)))result='×'+match[1];
+    else if((match=core.match(/^([0-9]+) sun for your garden\.$/)))result=match[1]+' سن آپ کے باغ کے لیے۔';
+    else if((match=core.match(/^A big one: ([0-9]+) sun and a burst of XP\.$/)))result='بڑا انعام: '+match[1]+' سن اور اضافی XP۔';
+    else if((match=core.match(/^Harvest collected: \+([0-9]+) sun$/)))result='فصل جمع ہوئی: +'+match[1]+' سن';
+    else if((match=core.match(/^Quest done: \+([0-9]+) sun$/)))result='مشن مکمل: +'+match[1]+' سن';
+    else if((match=core.match(/^You need ([0-9]+) sun\. A quick game earns plenty\.$/)))result='آپ کو '+match[1]+' سن درکار ہیں؛ مختصر کھیل سے مزید سن ملیں گے۔';
+    else if((match=core.match(/^Level ([0-9]+): (.+)$/)))result='لیول '+match[1]+': '+(URDU_TEXT[match[2]]||match[2]);
+    else if((match=core.match(/^Plant · (\d+)$/)))result='پودا لگائیں · '+match[1];
+    else if((match=core.match(/^Water · (\d+)$/)))result='پانی دیں · '+match[1];
+    else if((match=core.match(/^(\d+) of (\d+) found$/)))result=match[2]+' میں سے '+match[1]+' دریافت';
+    else if((match=core.match(/^(.+) · (.+)$/)))result=localizeText(match[1])+' · '+localizeText(match[2]);
+    else if((match=core.match(/^Hi, (.+)\. I’m Pip, your garden buddy\.$/)))result='سلام، '+match[1]+'! میں پِپ ہوں، آپ کا باغی ساتھی۔';
+    else if((match=core.match(/^You have been here (\d+) minutes\. Stretch, sip some water, rest your eyes\. Your garden will wait\.$/)))result='آپ یہاں '+match[1]+' منٹ سے ہیں۔ ذرا کھنچاؤ کریں، پانی پیئیں اور آنکھوں کو آرام دیں۔ باغ انتظار کرے گا۔';
+    else if((match=core.match(/^Combo x(\d+) · bonus sun$/)))result='مسلسل درست جواب ×'+match[1]+' · اضافی سن';
+    else if((match=core.match(/^Hint: the first (\d+) letters are placed\.$/)))result='اشارہ: پہلے '+match[1]+' حروف رکھ دیے گئے ہیں۔';
+    else if(core==='Hint: the first letter is placed.')result='اشارہ: پہلا حرف رکھ دیا گیا ہے۔';
+    else if((match=core.match(/^Yes! (.+)\.$/)))result='درست! '+match[1]+'۔';
+    else if((match=core.match(/^Play (.+)$/)))result='کھیلیں: '+(URDU_TEXT[match[1]]||match[1]);
+    else if((match=core.match(/^Good (morning|afternoon|evening)$/)))result={morning:'صبح بخیر',afternoon:'السلام علیکم',evening:'شام بخیر'}[match[1]];
+    else if(core==='Up late')result='رات کافی ہو گئی';
+    else if(core==='Late night')result='رات بخیر';
+    else if((match=core.match(/^(.+), (.+)$/))&&/^(Good morning|Good afternoon|Good evening|Up late|Late night)$/.test(match[1]))result=localizeText(match[1])+', '+match[2];
+    else result=core;
+  }
+  return leading+result.replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[+d])+trailing;
+}
+function translateTree(root){
+  if(!root)return;
+  const translateTextNode=node=>{
+    if(node.parentElement&&node.parentElement.closest('style,script'))return;
+    if(!englishText.has(node))englishText.set(node,node.nodeValue);
+    const original=englishText.get(node);node.nodeValue=S.lang==='ur'?localizeText(original):original;
+  };
+  if(root.nodeType===Node.TEXT_NODE){translateTextNode(root);return;}
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  let node;
+  while((node=walker.nextNode()))translateTextNode(node);
+  const elements=root.nodeType===Node.ELEMENT_NODE?[root,...root.querySelectorAll('*')]:root.querySelectorAll('*');
+  elements.forEach(el=>['placeholder','title','aria-label'].forEach(attr=>{
+    if(!el.hasAttribute(attr))return;
+    let saved=englishAttrs.get(el);if(!saved){saved={};englishAttrs.set(el,saved);}if(saved[attr]===undefined)saved[attr]=el.getAttribute(attr);
+    const original=saved[attr],value=S.lang==='ur'?localizeText(original):original;
+    if(el.getAttribute(attr)!==value)el.setAttribute(attr,value);
+  }));
+}
+function applyLanguage(root){
+  const ur=S.lang==='ur';document.documentElement.lang=ur?'ur':'en';document.documentElement.dir=ur?'rtl':'ltr';
+  const toggle=$('#languageToggle');if(toggle){toggle.textContent=ur?'English':'اردو';toggle.setAttribute('aria-label',ur?'Switch to English':'Switch to Urdu');}
+  translateTree(root||document.body);
+}
+const languageObserver=new MutationObserver(records=>{
+  if(S.lang!=='ur')return;
+  records.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType===Node.ELEMENT_NODE||n.nodeType===Node.TEXT_NODE)translateTree(n);}));
+});
+
+function levelInfo(xp){let lvl=1,need=100,rem=xp;while(rem>=need){rem-=need;lvl++;need=100+(lvl-1)*25;}return {lvl,rem,need};}
+const titleFor=l=>TITLES[Math.min(l-1,TITLES.length-1)];
+
+/* ================= audio + fx ================= */
+let actx=null;
+let musicTimer=0,musicStep=0,musicGain=null;
+function ac(){
+  try{
+    if(!actx){const C=window.AudioContext||window.webkitAudioContext;if(!C) return null;actx=new C();}
+    if(actx.state==='suspended') actx.resume();
+    return actx;
+  }catch(e){return null;}
+}
+function tone(f,dur,type,vol,delay){
+  if(!S.sound) return;
+  const a=ac();if(!a) return;
+  try{
+    const t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();
+    o.type=type||'sine';o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.06,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+.03);
+  }catch(e){}
+}
+function ambientNote(freq,when,duration,volume,type){
+  if(!actx||!musicGain) return;
+  const osc=actx.createOscillator(),gain=actx.createGain();
+  osc.type=type||'sine';osc.frequency.setValueAtTime(freq,when);
+  gain.gain.setValueAtTime(.0001,when);gain.gain.linearRampToValueAtTime(volume,when+1.1);gain.gain.setValueAtTime(volume,when+duration*.55);gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
+  osc.connect(gain);gain.connect(musicGain);osc.start(when);osc.stop(when+duration+.05);
+}
+function playAmbientStep(){
+  if(!S.music||!actx||actx.state!=='running') return;
+  const style=S.musicStyle||'piano';
+  const scales={piano:[174.61,220,261.63,329.63,261.63,196,246.94,293.66],pads:[130.81,164.81,196,220,196,146.83,174.61,220],breeze:[196,246.94,293.66,349.23,293.66,220,261.63,329.63]};
+  const scale=scales[style]||scales.piano,root=scale[musicStep%scale.length],wave=style==='pads'?'triangle':'sine';
+  const now=actx.currentTime+.08;
+  const level=Math.min(.3,Math.max(0,(S.musicVolume??10)/100));
+  ambientNote(root,now,4.6,.055*level/0.1,wave);
+  if(style==='piano'){ambientNote(root*1.25,now+.2,4,.026*level/0.1,'sine');ambientNote(root/2,now,4.8,.032*level/0.1,'sine');}
+  else if(style==='pads'){ambientNote(root*1.5,now+.4,5.4,.018*level/0.1,'sine');ambientNote(root/2,now,5.8,.024*level/0.1,'triangle');}
+  else ambientNote(root*2,now+.55,3.2,.012*level/0.1,'sine');
+  musicStep++;
+}
+function startAmbient(){
+  if(!S.music) return;
+  const a=ac();if(!a) return;
+  try{
+    if(!musicGain){musicGain=a.createGain();musicGain.gain.value=0;musicGain.connect(a.destination);}
+    if(a.state==='suspended')a.resume().then(()=>{if(S.music)playAmbientStep();}).catch(()=>{});
+    musicGain.gain.setTargetAtTime(Math.min(.3,Math.max(0,(S.musicVolume??10)/100)),a.currentTime,.18);
+    clearInterval(musicTimer);if(a.state==='running')playAmbientStep();musicTimer=setInterval(playAmbientStep,3600);
+  }catch(e){}
+}
+function stopAmbient(){clearInterval(musicTimer);musicTimer=0;if(musicGain&&actx){try{musicGain.gain.setTargetAtTime(.0001,actx.currentTime,.08);}catch(e){}}}
+const sfx={
+  tap:()=>tone(520,.07,'triangle',.045),
+  flip:()=>tone(700,.05,'triangle',.04),
+  good:()=>{tone(660,.12,'sine',.07);tone(880,.2,'sine',.07,.09);},
+  soft:()=>tone(300,.22,'sine',.05),
+  pop:()=>tone(350+Math.random()*420,.09,'sine',.07),
+  win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.24,'sine',.07,i*.1)),
+  bloom:()=>[392,523,659,784,988].forEach((f,i)=>tone(f,.32,'triangle',.06,i*.08))
+};
+const fx=$('#fx'),fctx=fx.getContext('2d');let parts=[],raf=0;
+function fitFx(){fx.width=window.innerWidth;fx.height=window.innerHeight;}
+function confetti(n,x,y){
+  if(reduceMotion) return;
+  const cols=['#ff8fb1','#5fe3b4','#ffd166','#7cc4ff','#b9a5ff'];
+  x=x||fx.width/2;y=y||fx.height*.4;
+  for(let i=0;i<(n||80);i++)parts.push({x,y,vx:(Math.random()-.5)*11,vy:-Math.random()*11-3,s:4+Math.random()*5,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.4,life:70+Math.random()*50});
+  if(!raf) raf=requestAnimationFrame(tick);
+}
+function tick(){
+  fctx.clearRect(0,0,fx.width,fx.height);
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{p.vy+=.28;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life--;
+    fctx.save();fctx.translate(p.x,p.y);fctx.rotate(p.r);fctx.fillStyle=p.c;fctx.globalAlpha=Math.min(1,p.life/30);fctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);fctx.restore();});
+  raf=parts.length?requestAnimationFrame(tick):0;
+  if(!parts.length) fctx.clearRect(0,0,fx.width,fx.height);
+}
+function toast(msg,kind){
+  const t=document.createElement('div');t.className='toast'+(kind?' '+kind:'');t.textContent=msg;$('#toasts').appendChild(t);
+  setTimeout(()=>t.classList.add('out'),3000);setTimeout(()=>t.remove(),3500);
+}
+function floatText(el,text){
+  if(!el) return;
+  const r=el.getBoundingClientRect(),f=document.createElement('div');
+  f.className='float';f.textContent=text;f.style.left=(r.left+r.width/2)+'px';f.style.top=r.top+'px';
+  document.body.appendChild(f);setTimeout(()=>f.remove(),950);
+}
+function modal(html,dismiss){const m=$('#modal');$('#modalBody').innerHTML=html;m.dataset.dismiss=dismiss===false?'0':'1';m.hidden=false;
+  setTimeout(()=>{const f=$('#modalBody input,#modalBody button');if(f)f.focus();},40);}
+function closeModal(){$('#modal').hidden=true;}
+
+/* ================= progress, rewards ================= */
+function updateHud(bump){
+  $('#sunVal').textContent=S.sun;
+  const L=levelInfo(S.xp);
+  $('#lvlVal').textContent='Lv '+L.lvl;
+  $('#xpFill').style.width=Math.round(L.rem/L.need*100)+'%';
+  if(bump){const p=$('#sunPill');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');}
+}
+function award(sun,xp){
+  const before=levelInfo(S.xp).lvl;
+  S.sun+=sun;S.xp+=xp;
+  const after=levelInfo(S.xp).lvl;
+  updateHud(sun>0);
+  if(after>before){toast('Level '+after+': '+titleFor(after),'good');confetti(70);sfx.win();}
+  checkAch();save();
+}
+function checkAch(){
+  ACH.forEach(a=>{if(!S.ach[a.id]&&a.t()){S.ach[a.id]=true;toast('Badge unlocked: '+a.n,'good');sfx.win();}});
+}
+function ensureQuests(){
+  const t=dstr();
+  if(S.quests.date===t) return;
+  let s=[...t].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+  const pool=QUEST_POOL.map(q=>q.id),chosen=[];
+  while(chosen.length<3){s=(s*1103515245+12345)>>>0;chosen.push(pool.splice(s%pool.length,1)[0]);}
+  S.quests={date:t,list:chosen.map(id=>({id,p:0,claimed:false})),chest:'locked'};
+  save();
+}
+function quest(evt,n){
+  ensureQuests();
+  S.quests.list.forEach(q=>{const d=QUEST[q.id];if(d.evt===evt&&!q.claimed)q.p=Math.min(d.goal,q.p+(n||1));});
+}
+function liveStreak(){
+  if(!S.last) return 0;
+  const d=dayDiff(S.last,dstr());
+  return (d<=1||(d===2&&S.rest>0))?S.streak:0;
+}
+function updateStreak(){
+  const t=dstr();
+  if(S.last===t) return;
+  const msgs=[];
+  if(!S.last){S.streak=1;}
+  else{
+    const d=dayDiff(S.last,t);
+    if(d===1)S.streak++;
+    else if(d===2&&S.rest>0){S.rest--;S.streak++;msgs.push('A rest token covered yesterday. Your streak is safe.');}
+    else{S.streak=1;msgs.push('Fresh start today. Day 1 of a new streak.');}
+  }
+  S.last=t;S.best=Math.max(S.best,S.streak);
+  if(S.streak>0&&S.streak%7===0&&S.rest<2){S.rest++;msgs.push('Seven days in a row! You earned a rest token.');}
+  msgs.forEach(m=>toast(m,'good'));
+}
+function finishGame(g,o){
+  S.stats.games++;S.days[dstr()]=true;updateStreak();
+  buddyCelebrateNext=true;
+  const h=new Date().getHours();if(h>=23||h<4)S.owl=true;
+  award((o&&o.sun)||0,(o&&o.xp)||0);
+}
+
+/* ================= navigation + rendering ================= */
+let view='home',lastBloom=-1,resetAsk=false,buddyCelebrateNext=false,buddyLineIndex=0;
+const BUDDY_LINES=['Tiny steps still count.','I’m glad you stopped by.','Your garden can wait while you rest.','Want to grow one small thing today?'];
+function buddyReact(){
+  const scene=$('.buddy-scene'),line=$('#buddyLine');if(!scene||!line)return;
+  line.textContent=BUDDY_LINES[buddyLineIndex%BUDDY_LINES.length];buddyLineIndex++;
+  scene.classList.remove('celebrate');void scene.offsetWidth;scene.classList.add('celebrate');
+  setTimeout(()=>scene.classList.remove('celebrate'),1700);sfx.tap();
+}
+function go(v){
+  view=v;
+  $$('.view').forEach(s=>s.hidden=s.id!=='view-'+v);
+  $$('.tab').forEach(b=>{const on=b.dataset.go===v;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false');});
+  render();window.scrollTo(0,0);
+}
+function render(){({home:renderHome,play:renderPlay,garden:renderGarden,me:renderMe})[view]();applyLanguage($('#view-'+view));}
+
+function bestText(g){
+  const b=S.bests[g];
+  if(g==='quiz') return b?'Best '+b+'/6':'New';
+  if(g==='memory') return b?'Best '+b+' moves':'New';
+  if(g==='word') return b?'Best '+b+'/5':'New';
+  if(g==='pop') return b?'Best '+b+' popped':'New';
+  return b?b+' sessions':'New';
+}
+function dayHash(){return [...dstr()].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,3);}
+
+function buddySVG(){
+  return '<svg viewBox="0 0 220 220" aria-hidden="true"><ellipse cx="110" cy="199" rx="48" ry="8" fill="var(--ink)" opacity=".12"/>'+
+    '<path d="M88 171l-5 17m50-17 5 17" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>'+
+    '<path d="M110 101C82 82 52 100 52 133c0 32 23 54 58 54s58-22 58-54c0-33-30-51-58-32z" fill="var(--t-leaf)" stroke="var(--leaf)" stroke-width="3"/>'+
+    '<path class="buddy-arm" d="M62 126c-17 3-19 17-24 20" fill="none" stroke="var(--leaf)" stroke-width="9" stroke-linecap="round"/>'+
+    '<path d="M157 127c14 3 17 15 22 18" fill="none" stroke="var(--leaf)" stroke-width="9" stroke-linecap="round"/>'+
+    '<path d="M110 105V77m0 15c-11-13-20-13-29-12 5 12 14 17 29 15m0-9c9-13 19-14 28-12-5 12-14 17-28 15" fill="none" stroke="var(--leaf)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'+
+    '<g transform="translate(110 69)" fill="var(--bloom)"><ellipse cx="0" cy="-15" rx="8" ry="15"/><ellipse cx="0" cy="-15" rx="8" ry="15" transform="rotate(60)"/><ellipse cx="0" cy="-15" rx="8" ry="15" transform="rotate(120)"/><ellipse cx="0" cy="-15" rx="8" ry="15" transform="rotate(180)"/><ellipse cx="0" cy="-15" rx="8" ry="15" transform="rotate(240)"/><ellipse cx="0" cy="-15" rx="8" ry="15" transform="rotate(300)"/><circle r="8" fill="var(--sun)"/></g>'+
+    '<ellipse class="buddy-eye" cx="94" cy="130" rx="5" ry="8" fill="#18352e"/><ellipse class="buddy-eye" cx="126" cy="130" rx="5" ry="8" fill="#18352e"/>'+
+    '<circle cx="96" cy="127" r="1.7" fill="white"/><circle cx="128" cy="127" r="1.7" fill="white"/>'+
+    '<ellipse cx="78" cy="143" rx="8" ry="4" fill="var(--bloom)" opacity=".55"/><ellipse cx="142" cy="143" rx="8" ry="4" fill="var(--bloom)" opacity=".55"/>'+
+    '<path d="M101 146q9 11 18 0" fill="none" stroke="#18352e" stroke-width="3" stroke-linecap="round"/></svg>';
+}
+function butterflySVG(){
+  return '<svg viewBox="0 0 60 50" aria-hidden="true"><ellipse class="butterfly-wing left" cx="17" cy="24" rx="13" ry="9" fill="var(--t-sun)" stroke="var(--ink)" stroke-width="1.5"/><ellipse class="butterfly-wing right" cx="43" cy="24" rx="13" ry="9" fill="var(--t-bloom)" stroke="var(--ink)" stroke-width="1.5"/><path d="M30 17v17m0-15q-6-9-9-6m9 6q6-9 9-6" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><circle cx="26" cy="23" r="1.4" fill="var(--ink)"/><circle cx="34" cy="23" r="1.4" fill="var(--ink)"/></svg>';
+}
+
+function renderHome(){
+  ensureQuests();
+  const t=dstr(),h=new Date().getHours();
+  const greet=h<5?'Up late':h<12?'Good morning':h<17?'Good afternoon':h<22?'Good evening':'Late night';
+  const nm=S.name?', '+esc(S.name):'';
+  const played=S.last===t,live=liveStreak();
+  const mood=S.mood&&S.mood.date===t?MOODS.find(m=>m.id===S.mood.id):null;
+  const ids=Object.keys(GAMES);
+  const next=mood?mood.rec:ids[dayHash()%ids.length];
+  const G=GAMES[next];
+  const moodLines={1:'We can keep it soft today. No rush.',2:'Let’s let one small worry float away.',3:'Steady is a lovely place to start.',4:'A good day for a little growth.',5:'Your joy looks bright today.'};
+  const buddyLine=mood?moodLines[mood.id]:(played?'You showed up. That is plenty for one day.':S.name?'Hi, '+esc(S.name)+'. I’m Pip, your garden buddy.':'Hi, I’m Pip. Tap me for a little company.');
+  const celebrate=buddyCelebrateNext;buddyCelebrateNext=false;
+
+  let dots='';
+  for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);
+    dots+='<div class="day'+(S.days[dstr(d)]?' on':'')+(i===0?' today':'')+'"><i></i><span>'+d.toLocaleDateString(S.lang==='ur'?'ur-PK':'en',{weekday:S.lang==='ur'?'short':'narrow'})+'</span></div>';}
+
+  const moodHTML=mood
+    ?'<div class="rec" style="--tc:'+mood.tile+'"><p>'+mood.line+'</p><div class="rec-row"><button class="btn small" data-act="launch" data-g="'+mood.rec+'">Play '+GAMES[mood.rec].name+'</button><button class="link" data-act="moodReset">Change mood</button></div></div>'
+    :'<div class="moods" role="group" aria-label="How are you feeling">'+MOODS.map(m=>'<button class="mood" style="--tc:'+m.tile+'" data-act="mood" data-v="'+m.id+'">'+face(m.id)+'<span>'+m.label+'</span></button>').join('')+'</div>';
+
+  const qs=S.quests.list.map((q,i)=>{
+    const d=QUEST[q.id],pct=Math.round(q.p/d.goal*100),ready=q.p>=d.goal&&!q.claimed;
+    const right=q.claimed?'<span class="done-mark">'+ICON.check+'Done</span>':ready?'<button class="btn small" data-act="claim" data-i="'+i+'">Claim +'+d.sun+'</button>':'<span class="dim" style="font-weight:800">+'+d.sun+' sun</span>';
+    return '<div class="card quest"><div><div class="quest-t">'+d.t+'</div><div class="bar"><i style="width:'+pct+'%"></i></div><div class="quest-s">'+q.p+' of '+d.goal+'</div></div>'+right+'</div>';
+  }).join('');
+
+  const ch=S.quests.chest;
+  const chestHTML='<div class="card chest '+ch+'"><div class="gift">'+ICON.gift+'</div><div class="chest-t"><b>Bloom Box</b><span class="dim">'+
+    (ch==='ready'?'Your reward is ready. What is inside?':ch==='opened'?'Opened today. A new one arrives tomorrow.':'Finish all three quests to unlock a surprise.')+'</span></div>'+
+    (ch==='ready'?'<button class="btn small" data-act="chest">Open</button>':'')+'</div>';
+
+  $('#view-home').innerHTML=
+  '<div class="home-hero"><div class="home-hero-copy"><span class="eyebrow"><i></i> Your daily reset</span><h1 class="hello">'+greet+nm+'</h1><p class="hello-sub">'+(played?'You showed up today. That already counts.':'Three minutes is enough. Pick something small and let the rest of the day wait.')+'</p>'+
+   '<div class="hero-cta"><button class="btn big" data-act="launch" data-g="'+next+'">'+ICON.play+'Play '+G.name+'</button><span class="dim" style="font-weight:700">'+G.mins+' · '+G.tag+'</span></div></div>'+
+   '<div class="buddy-scene'+(celebrate?' celebrate':'')+'"><div class="buddy-line" id="buddyLine">'+buddyLine+'</div><button class="bloom-buddy" data-act="buddy" aria-label="Say hello to Pip, your garden buddy">'+buddySVG()+'</button><div class="buddy-butterfly">'+butterflySVG()+'</div><i class="buddy-leaf one"></i><i class="buddy-leaf two"></i></div></div>'+
+   '<div class="card streak"><div class="streak-top"><div class="flame'+(live?' live':'')+'">'+ICON.flame+'</div><div><div class="big-n">'+live+'</div><div class="dim" style="font-weight:700;font-size:.9rem">day streak'+(played?'':' · play today to keep it')+'</div></div>'+
+   '<div class="rest" title="A rest token covers one missed day"><span>Rest tokens</span><div aria-label="'+S.rest+' of 2 rest tokens"><i class="'+(S.rest>0?'on':'')+'"></i><i class="'+(S.rest>1?'on':'')+'"></i></div></div></div><div class="days">'+dots+'</div></div>'+
+   '<div><div class="sec-h"><h2>How is your head right now?</h2></div>'+moodHTML+'</div>'+
+   '<div><div class="sec-h"><h2>Today\'s quests</h2></div><div class="quests">'+qs+chestHTML+'</div></div>';
+}
+
+function renderPlay(){
+  $('#view-play').innerHTML='<div><h1 class="hello">Pick a game</h1><p class="hello-sub">Every game is short, with no timers on the learning ones and no lives to lose.</p></div><div class="gcards">'+
+  Object.keys(GAMES).map(k=>{const G=GAMES[k];
+    return '<button class="gcard" style="--tc:'+G.color+'" data-act="launch" data-g="'+k+'"><span class="ghost-ic">'+G.icon+'</span><span class="gic">'+G.icon+'</span><span><h3>'+G.name+'</h3><p>'+G.blurb+'</p></span><span class="gmeta"><span class="tag">'+G.tag+'</span><span class="tag">'+G.mins+'</span><span class="tag">'+bestText(k)+'</span></span></button>';}).join('')+'</div>';
+}
+
+function plantSVG(spId,st){
+  const soil='<ellipse cx="50" cy="88" rx="30" ry="9" fill="var(--soil)"/><ellipse cx="50" cy="85.5" rx="22" ry="5" fill="var(--soil)" opacity=".6"/>';
+  if(!st) return '<svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="88" rx="30" ry="9" fill="var(--soil)" opacity=".5"/><path d="M50 50v22M39 61h22" stroke="var(--ink-dim)" stroke-width="4" stroke-linecap="round"/></svg>';
+  const sp=SPECIES.find(s=>s.id===spId)||SPECIES[0],top=st===1?66:st===2?52:46,leaf='#46c995';
+  let g='<path d="M50 86V'+top+'" stroke="'+leaf+'" stroke-width="4.5" stroke-linecap="round"/>';
+  g+='<ellipse cx="40" cy="'+(top+13)+'" rx="10" ry="4.6" fill="'+leaf+'" transform="rotate(-28 40 '+(top+13)+')"/>';
+  g+='<ellipse cx="60" cy="'+(top+22)+'" rx="10" ry="4.6" fill="'+leaf+'" transform="rotate(28 60 '+(top+22)+')"/>';
+  if(st===2) g+='<ellipse cx="50" cy="'+(top-5)+'" rx="6.5" ry="9" fill="'+sp.c+'" stroke="rgba(30,20,60,.3)" stroke-width=".8"/>';
+  if(st===3){
+    const cy=top-6;
+    for(let k=0;k<sp.n;k++)g+='<ellipse cx="50" cy="'+(cy-sp.ry*.85)+'" rx="'+sp.rx+'" ry="'+sp.ry+'" fill="'+sp.c+'" stroke="rgba(30,20,60,.28)" stroke-width=".8" transform="rotate('+(360/sp.n*k)+' 50 '+cy+')"/>';
+    g+='<circle cx="50" cy="'+cy+'" r="6.5" fill="'+sp.d+'" stroke="rgba(30,20,60,.3)" stroke-width=".8"/>';
+  }
+  return '<svg viewBox="0 0 100 100" aria-hidden="true">'+soil+'<g class="sway">'+g+'</g></svg>';
+}
+
+function renderGarden(){
+  const bloomed=S.plots.filter(p=>p&&p.st===3).length,canHarvest=bloomed>0&&S.harvest!==dstr();
+  const discN=Object.keys(S.disc).length,planted=S.plots.filter(Boolean).length;
+  let plots='';
+  S.plots.forEach((p,i)=>{
+    const sp=p?SPECIES.find(s=>s.id===p.sp):null;
+    const tag=!p?'Plant · '+COST[0]:p.st<3?'Water · '+COST[p.st]:'In bloom';
+    plots+='<button class="plot'+(p&&p.st===3?' bloom':'')+(lastBloom===i?' pop':'')+'" data-plot="'+i+'" aria-label="'+(p?esc(sp.name)+', stage '+p.st+' of 3':'Empty plot')+'">'+plantSVG(p?p.sp:null,p?p.st:0)+'<span class="plot-tag">'+tag+'</span></button>';
+  });
+  lastBloom=-1;
+  const coll=SPECIES.map(sp=>'<div class="spc'+(S.disc[sp.id]?' on':'')+'">'+plantSVG(sp.id,3)+'<span>'+(S.disc[sp.id]?sp.name:'Undiscovered')+'</span></div>').join('');
+  $('#view-garden').innerHTML=
+   '<div class="garden-head"><div><h1 class="hello">Your garden</h1><p class="hello-sub">'+(planted?'Tap an empty plot to plant. Tap a plant to water it.':'Tap any plot to plant your first seed. You have enough sun to grow it right now.')+'</p></div></div>'+
+   '<div class="card" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between"><div><b style="font:600 1.05rem var(--font-display)">Daily harvest</b><div class="note">'+(bloomed?bloomed+' bloomed plant'+(bloomed>1?'s':'')+' · +'+bloomed*6+' sun':'Bloom a plant to unlock this')+'</div></div>'+
+   '<button class="btn small" data-act="harvest" '+(canHarvest?'':'disabled')+'>'+(canHarvest?'Collect':bloomed?'Collected today':'Locked')+'</button></div>'+
+   '<div class="plots">'+plots+'</div>'+
+   '<div><div class="sec-h"><h2>Flower collection</h2><span class="note">'+discN+' of '+SPECIES.length+' found</span></div><div class="spcs">'+coll+'</div></div>';
+}
+
+function renderMe(){
+  const L=levelInfo(S.xp),t=dstr();
+  const ageOptions=[['','Choose age group'],['under18','Under 18'],['18-24','18–24'],['25-34','25–34'],['35-44','35–44'],['45plus','45+']];
+  let week='';
+  for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const m=S.moods[dstr(d)];
+    week+='<div class="wd"><i class="'+(m?'has':'')+'" '+(m?'style="--tc:'+MOODS[m-1].tile+'" title="'+MOODS[m-1].label+'"':'')+'></i><span>'+d.toLocaleDateString(S.lang==='ur'?'ur-PK':'en',{weekday:S.lang==='ur'?'short':'narrow'})+'</span></div>';}
+  const st=S.stats;
+  const stat=(n,l)=>'<div class="stat"><b>'+n+'</b><span>'+l+'</span></div>';
+  $('#view-me').innerHTML=
+  '<div class="card profile"><div class="profile-row"><div class="avatar">'+(S.name?esc(S.name.charAt(0).toUpperCase()):'M')+'</div><div class="profile-details"><label class="profile-field">Name<input class="field-in" id="nameIn" maxlength="20" placeholder="Your name" value="'+esc(S.name)+'"></label><label class="profile-field">Age group (optional)<select class="field-in select" id="ageIn">'+ageOptions.map(o=>'<option value="'+o[0]+'"'+(S.ageGroup===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label></div></div>'+ 
+   '<div><div style="display:flex;justify-content:space-between;gap:10px;font-weight:800;margin-bottom:8px"><span>Level '+L.lvl+' · '+titleFor(L.lvl)+'</span><span class="dim">'+L.rem+' / '+L.need+' XP</span></div><div class="xp"><i style="width:'+Math.round(L.rem/L.need*100)+'%"></i></div></div></div>'+
+   '<div class="stats">'+stat(st.games,'Games played')+stat(st.quizRight,'Quiz answers right')+stat(st.pops,'Worries popped')+stat(st.words,'Words solved')+stat(st.breaths,'Breath sessions')+stat(st.blooms,'Blooms grown')+'</div>'+
+   '<div><div class="sec-h"><h2>Mood this week</h2></div><div class="card"><div class="week">'+week+'</div></div></div>'+
+  '<div><div class="sec-h"><h2>Badges</h2><span class="note">'+Object.keys(S.ach).length+' of '+ACH.length+'</span></div><div class="achs">'+
+   ACH.map(a=>'<div class="ach'+(S.ach[a.id]?' on':'')+'"><div class="ai">'+(S.ach[a.id]?ICON.star:ICON.lock)+'</div><div><b>'+a.n+'</b><span>'+a.d+'</span></div></div>').join('')+'</div></div>'+
+   '<div><div class="sec-h"><h2>Settings</h2></div><div class="card">'+
+  '<div class="setrow"><span style="font-weight:800">Sound effects</span><div class="seg"><button class="'+(S.sound?'on':'')+'" data-act="sound" data-v="1">On</button><button class="'+(S.sound?'':'on')+'" data-act="sound" data-v="0">Off</button></div></div>'+
+  '<div class="setrow"><span style="font-weight:800">Ambient soundtrack</span><select class="field-in select" id="musicStyleIn"><option value="off"'+(!S.music?' selected':'')+'>Off</option><option value="piano"'+(S.music&&S.musicStyle==='piano'?' selected':'')+'>Soft piano</option><option value="pads"'+(S.music&&S.musicStyle==='pads'?' selected':'')+'>Warm pads</option><option value="breeze"'+(S.music&&S.musicStyle==='breeze'?' selected':'')+'>Quiet breeze</option></select></div>'+
+   '<div class="setrow"><label for="musicVolume" style="font-weight:800">Music volume</label><input id="musicVolume" type="range" min="0" max="30" step="1" value="'+(S.musicVolume??10)+'" aria-label="Music volume"></div>'+
+   '<div class="setrow"><span style="font-weight:800">Theme</span><div class="seg">'+[['light','Dawn'],['garden','Garden'],['sunrise','Sunset'],['dark','Midnight'],['auto','Auto']].map(([v,l])=>'<button class="'+(S.theme===v?'on':'')+'" data-act="theme" data-v="'+v+'">'+l+'</button>').join('')+'</div></div>'+
+    '<div class="setrow"><span style="font-weight:800">Language</span><div class="seg"><button class="'+(S.lang==='en'?'on':'')+'" data-act="language" data-v="en">English</button><button class="'+(S.lang==='ur'?'on':'')+'" data-act="language" data-v="ur">اردو</button></div></div>'+
+    '<div class="setrow"><span style="font-weight:800">Resume code</span><button class="btn ghost" data-act="changeResumeCode">Change code</button></div>'+
+   '<div class="setrow"><span style="font-weight:800">Reset progress</span>'+(resetAsk?'<span style="display:flex;gap:8px"><button class="btn ghost" data-act="resetYes">Yes, erase</button><button class="btn ghost" data-act="resetNo">Keep it</button></span>':'<button class="btn ghost" data-act="resetAsk">Reset</button>')+'</div>'+
+  '<p class="note" style="margin-top:8px">Your profile and progress stay in this browser. Age group is optional; no birth date is collected. A six-digit code unlocks this saved profile on this device, but is not cloud backup. Ambient audio is gentle and optional.</p></div></div>'+
+  '<section><div class="sec-h"><h2>Reviews & suggestions</h2></div><div class="card feedback-box"><p class="note">Your feedback is saved on this device and is not public. Share it with me on WhatsApp if you want me to receive it.</p><form id="feedbackForm"><label class="profile-field">Type<select id="feedbackType" class="field-in select"><option value="suggestion">Suggestion</option><option value="review">Review</option><option value="bug">Report a problem</option></select></label><label class="profile-field">Rating<select id="feedbackRating" class="field-in select"><option value="0">No rating</option><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></label><label class="profile-field">Your message<textarea id="feedbackText" class="field-in feedback-text" maxlength="700" required placeholder="What should we improve?"></textarea></label><div class="feedback-actions"><button type="submit" class="btn small">Save privately</button><a id="feedbackWhatsapp" class="btn ghost small" href="'+whatsappUrl('Hi! I have feedback about Mind Bloom.')+'" target="_blank" rel="noopener noreferrer">Share on WhatsApp</a></div></form>'+(S.feedback&&S.feedback.length?'<div class="feedback-list">'+S.feedback.slice(-5).reverse().map(f=>'<article class="feedback-entry"><b>'+esc(f.type)+' · '+(f.rating?f.rating+'/5':'No rating')+'</b><p>'+esc(f.text)+'</p><span class="note">'+esc(f.date)+'</span></article>').join('')+'</div>':'')+'<a class="btn ghost small" href="'+whatsappUrl('Hi! I have a suggestion for Mind Bloom.')+'" target="_blank" rel="noopener noreferrer">Contact me on WhatsApp</a></div></section>';
+  const ni=$('#nameIn');
+  if(ni)ni.addEventListener('change',()=>{S.name=ni.value.trim();save();renderMe();});
+  const ai=$('#ageIn');
+  if(ai)ai.addEventListener('change',()=>{S.ageGroup=ai.value;save();});
+  const musicStyle=$('#musicStyleIn');
+  if(musicStyle)musicStyle.addEventListener('change',()=>{S.music=musicStyle.value!=='off';if(S.music)S.musicStyle=musicStyle.value;save();if(S.music)startAmbient();else stopAmbient();});
+  const musicVolume=$('#musicVolume');
+  if(musicVolume)musicVolume.addEventListener('input',()=>{S.musicVolume=+musicVolume.value;save();if(musicGain&&actx)musicGain.gain.setTargetAtTime(S.musicVolume/100,actx.currentTime,.08);});
+  const feedbackForm=$('#feedbackForm');
+  if(feedbackForm)feedbackForm.addEventListener('submit',e=>{e.preventDefault();const text=$('#feedbackText').value.trim();if(!text)return;S.feedback=S.feedback||[];S.feedback.push({type:$('#feedbackType').value,rating:+$('#feedbackRating').value,text,date:dstr()});save();toast('Feedback saved on this device','good');renderMe();});
+  const shareFeedback=$('#feedbackWhatsapp');
+  if(shareFeedback)shareFeedback.addEventListener('click',e=>{const text=$('#feedbackText').value.trim();if(!text)return;e.preventDefault();const kind=$('#feedbackType').value,rating=+$('#feedbackRating').value,message='Mind Bloom '+kind+(rating?' ('+rating+'/5)':'')+': '+text;window.open(whatsappUrl(message),'_blank','noopener,noreferrer');});
+}
+
+/* ================= garden actions ================= */
+function need(c){toast('You need '+c+' sun. A quick game earns plenty.');sfx.soft();}
+function plotAction(i){
+  const p=S.plots[i];
+  if(!p){
+    if(S.sun<COST[0]) return need(COST[0]);
+    S.sun-=COST[0];
+    const und=SPECIES.filter(s=>!S.disc[s.id]);
+    S.plots[i]={sp:(und.length&&Math.random()<.7?pick(und):pick(SPECIES)).id,st:1};
+    sfx.tap();toast('Seed planted');
+  }else if(p.st<3){
+    const c=COST[p.st];
+    if(S.sun<c) return need(c);
+    S.sun-=c;p.st++;quest('water');
+    if(p.st===3){
+      const sp=SPECIES.find(s=>s.id===p.sp);
+      S.stats.blooms++;S.disc[p.sp]=true;lastBloom=i;
+      sfx.bloom();confetti(90);toast(sp.name+' bloomed!','good');
+      award(0,30);
+    }else{sfx.good();toast('Growing nicely');}
+  }else{
+    toast(SPECIES.find(s=>s.id===p.sp).name+' is in full bloom.');return;
+  }
+  updateHud();save();checkAch();renderGarden();
+}
+function harvest(){
+  const n=S.plots.filter(p=>p&&p.st===3).length;
+  if(!n||S.harvest===dstr()) return;
+  S.harvest=dstr();const gain=n*6;
+  award(gain,5);sfx.good();toast('Harvest collected: +'+gain+' sun','good');renderGarden();
+}
+function claimQuest(i){
+  ensureQuests();
+  const q=S.quests.list[i];if(!q) return;
+  const d=QUEST[q.id];
+  if(q.claimed||q.p<d.goal) return;
+  q.claimed=true;award(d.sun,15);sfx.good();toast('Quest done: +'+d.sun+' sun','good');
+  if(S.quests.list.every(x=>x.claimed)&&S.quests.chest==='locked'){S.quests.chest='ready';toast('Bloom Box unlocked!','good');confetti(60);}
+  save();renderHome();
+}
+function openChest(){
+  if(S.quests.chest!=='ready') return;
+  S.quests.chest='opened';
+  const r=Math.random();let msg;
+  if(r<.5){const n=40+rand(5)*10;award(n,10);msg=n+' sun for your garden.';}
+  else if(r<.8){const n=80+rand(3)*20;award(n,20);msg='A big one: '+n+' sun and a burst of XP.';}
+  else{
+    const e=S.plots.findIndex(p=>!p);
+    if(e>=0){S.plots[e]={sp:pick(SPECIES).id,st:1};award(0,20);msg='A free seed, already planted in your garden.';}
+    else{award(100,20);msg='Your garden is full, so here are 100 sun instead.';}
+  }
+  save();sfx.win();confetti(120);renderHome();
+  modal('<div class="gift">'+ICON.gift+'</div><h2>Bloom Box opened</h2><p>'+msg+'</p><button class="btn" data-act="modalClose">Lovely</button>');
+}
+
+/* ================= game stage ================= */
+const stage=$('#stage'),sBody=$('#stageBody'),sTitle=$('#stageTitle'),sProg=$('#stageProg');
+let active=null;
+function setProg(p){sProg.style.width=Math.round(p*100)+'%';}
+function stopActive(){
+  if(!active) return;
+  active.timers.forEach(t=>{clearTimeout(t);clearInterval(t);});
+  active.off.forEach(f=>f());
+  active=null;
+}
+function openStage(id,title){
+  stopActive();
+  active={id,timers:[],off:[]};
+  sBody.onclick=null;sBody.innerHTML='';sTitle.textContent=title;setProg(0);
+  stage.hidden=false;document.body.style.overflow='hidden';sBody.scrollTop=0;
+}
+function closeStage(){
+  stopActive();stage.hidden=true;document.body.style.overflow='';sBody.innerHTML='';sBody.onclick=null;render();
+}
+function later(fn,ms){const id=setTimeout(fn,ms);if(active)active.timers.push(id);return id;}
+function every(fn,ms){const id=setInterval(fn,ms);if(active)active.timers.push(id);return id;}
+function listen(target,ev,fn){target.addEventListener(ev,fn);if(active)active.off.push(()=>target.removeEventListener(ev,fn));}
+
+function introHTML(g,extra){
+  const G=GAMES[g];
+  return '<div class="intro" style="--tc:'+G.color+'"><div class="intro-art">'+G.icon+'</div><div class="intro-tags"><span class="tag">'+G.tag+'</span><span class="tag">'+G.mins+'</span></div><h2>'+G.name+'</h2><p>'+G.blurb+'</p>'+(extra||'')+'<button class="btn big" data-start>Start</button></div>';
+}
+function simpleIntro(g){
+  openStage(g,GAMES[g].name);
+  sBody.innerHTML=introHTML(g,'');
+  sBody.onclick=e=>{if(e.target.closest('[data-start]')){sfx.tap();GAMES[g].play();}};
+}
+function result(o){
+  setProg(1);
+  sBody.innerHTML='<div class="result" style="--tc:'+o.color+'"><div class="big">'+o.big+'</div><div class="rl">'+o.label+'</div><p>'+o.msg+'</p><div class="rows">'+
+    o.rows.map(r=>'<div class="row"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('')+'</div><div class="rbtns"><button class="btn big" data-again>Play again</button><button class="btn ghost" data-close>Back</button></div></div>';
+  sBody.scrollTop=0;
+  sBody.onclick=e=>{if(e.target.closest('[data-again]'))o.again();else if(e.target.closest('[data-close]'))closeStage();};
+}
+
+/* ---- Brain Snacks ---- */
+function quizIntro(){
+  let cat='mixed';
+  openStage('quiz','Brain Snacks');
+  const chips=[['mixed','Mixed']].concat(Object.keys(CATS).map(k=>[k,CATS[k]]));
+  sBody.innerHTML=introHTML('quiz','<div class="chips" role="group" aria-label="Topic">'+chips.map(c=>'<button class="chip'+(c[0]==='mixed'?' on':'')+'" data-cat="'+c[0]+'">'+c[1]+'</button>').join('')+'</div>');
+  sBody.onclick=e=>{
+    const c=e.target.closest('[data-cat]');
+    if(c){cat=c.dataset.cat;$$('.chip',sBody).forEach(x=>x.classList.toggle('on',x.dataset.cat===cat));sfx.tap();return;}
+    if(e.target.closest('[data-start]')){sfx.tap();quizPlay(cat);}
+  };
+}
+function quizPlay(cat){
+  openStage('quiz','Brain Snacks');
+  const pool=QUESTIONS.map((q,i)=>Object.assign({id:i},q)).filter(q=>cat==='mixed'||q.c===cat);
+  let fresh=pool.filter(q=>!S.seen.includes(q.id));
+  if(fresh.length<6){S.seen=S.seen.filter(id=>!pool.some(p=>p.id===id));fresh=pool;}
+  const qs=shuffle(fresh).slice(0,6);
+  let i=0,right=0,combo=0,bestCombo=0,hints=1,locked=false,earned=0;
+  function show(){
+    const q=qs[i];locked=false;
+    const opts=shuffle(q.o.map((t,k)=>({t,k})));
+    setProg(i/qs.length);
+    sBody.innerHTML='<div class="qmeta"><span class="tag">'+CATS[q.c]+'</span><span class="dim" style="font-weight:800">Question '+(i+1)+' of '+qs.length+'</span></div>'+
+      '<div class="combo" id="combo">'+(combo>1?'Combo x'+combo+' · bonus sun':'')+'</div>'+
+      '<h2 class="qtext">'+esc(q.q)+'</h2>'+
+      '<div class="opts">'+opts.map(o=>'<button class="opt" data-k="'+o.k+'">'+esc(o.t)+'</button>').join('')+'</div>'+
+      '<div id="fb"></div>'+
+      '<div class="qfoot" id="qfoot"><button class="btn ghost" data-hint '+(hints?'':'disabled')+'>Hint ('+hints+' left)</button></div>';
+    sBody.onclick=e=>{
+      if(e.target.closest('[data-hint]')){
+        if(!hints||locked) return;
+        hints--;sfx.tap();
+        shuffle($$('.opt',sBody).filter(b=>+b.dataset.k!==q.a)).slice(0,2).forEach(b=>b.classList.add('gone'));
+        const hb=$('[data-hint]',sBody);hb.disabled=true;hb.textContent='Hint used';return;
+      }
+      if(e.target.closest('[data-next]')){sfx.tap();i++;if(i>=qs.length)finish();else show();return;}
+      const o=e.target.closest('.opt');
+      if(!o||locked) return;
+      locked=true;
+      const ok=+o.dataset.k===q.a;
+      if(!S.seen.includes(q.id))S.seen.push(q.id);
+      if(S.seen.length>200)S.seen=S.seen.slice(-120);
+      $$('.opt',sBody).forEach(b=>{
+        if(+b.dataset.k===q.a)b.classList.add('ok');
+        else if(b===o)b.classList.add('no');
+        else b.classList.add('dim');
+      });
+      if(ok){
+        right++;combo++;bestCombo=Math.max(bestCombo,combo);S.stats.quizRight++;quest('right',1);
+        const gain=4+Math.min(combo-1,3);earned+=gain;
+        award(gain,5);sfx.good();floatText(o,'+'+gain+' sun');
+      }else{combo=0;sfx.soft();}
+      $('#combo',sBody).textContent=combo>1?'Combo x'+combo+' · bonus sun':'';
+      $('#fb',sBody).innerHTML='<div class="fb"><p><b>'+(ok?pick(['Right!','Nice one.','Exactly.','You got it.']):pick(['Close one.','Good try.','Not this time.']))+'</b> '+esc(q.e)+'</p></div>';
+      $('#qfoot',sBody).innerHTML='<span></span><button class="btn" data-next>'+(i===qs.length-1?'See results':'Next')+'</button>';
+      $('[data-next]',sBody).scrollIntoView({block:'nearest'});
+    };
+  }
+  function finish(){
+    const bonus=8+right*2;
+    S.stats.perfect+=right===qs.length?1:0;
+    S.bests.quiz=Math.max(S.bests.quiz,right);
+    quest('quiz',1);finishGame('quiz',{sun:bonus,xp:10});
+    if(right>=5){confetti(110);sfx.win();}else if(right>=3)sfx.good();
+    result({color:'var(--t-sky)',big:right+'/'+qs.length,label:'correct answers',
+      msg:right===qs.length?'Flawless. That brain is on fire.':right>=4?'Strong round. That knowledge is banked.':right>=2?'Solid effort. Those explanations will stick.':'Rough round, good learning. Every miss is a memory in progress.',
+      rows:[['Best combo','x'+Math.max(bestCombo,1)],['Sun earned',earned+bonus]],again:()=>quizPlay(cat)});
+  }
+  show();
+}
+
+/* ---- Concept Pairs ---- */
+function memoryPlay(){
+  openStage('memory','Concept Pairs');
+  const pairs=shuffle(S.lang==='ur'?PAIRS_URDU:PAIRS).slice(0,6);
+  const cards=shuffle(pairs.flatMap((p,k)=>[{k,t:p[0],kind:'term'},{k,t:p[1],kind:'def'}]));
+  let first=null,lock=false,moves=0,matched=0,peeks=1;
+  sBody.innerHTML='<div class="mstat"><span id="mstat"></span><button class="btn ghost" data-peek>Peek (1)</button></div><div class="mgrid">'+
+    cards.map((c,i)=>'<button class="mcard '+c.kind+'" data-i="'+i+'" aria-label="Card '+(i+1)+'"><span class="mi"><span class="mf">'+ICON.memory+'</span><span class="mb">'+esc(c.t)+'</span></span></button>').join('')+'</div>'+
+    '<p class="note" style="text-align:center">Match each term, shown in the bold font, with its meaning.</p>';
+  const els=$$('.mcard',sBody);
+  function status(){$('#mstat',sBody).textContent='Moves '+moves+' · Pairs '+matched+'/6';setProg(matched/6);}
+  function flip(i,on){cards[i].up=on;els[i].classList.toggle('up',on);}
+  sBody.onclick=e=>{
+    const pk=e.target.closest('[data-peek]');
+    if(pk){
+      if(peeks<1||first!==null||lock) return;
+      peeks--;lock=true;pk.textContent='Peek (0)';pk.disabled=true;
+      els.forEach((el,i)=>{if(!cards[i].done)el.classList.add('up');});
+      later(()=>{els.forEach((el,i)=>{if(!cards[i].done)el.classList.remove('up');});lock=false;},1500);
+      return;
+    }
+    const b=e.target.closest('.mcard');if(!b||lock) return;
+    const i=+b.dataset.i;if(cards[i].up||cards[i].done) return;
+    flip(i,true);sfx.flip();
+    if(first===null){first=i;return;}
+    moves++;
+    const a=cards[first],c=cards[i];
+    if(a.k===c.k){
+      a.done=c.done=true;els[first].classList.add('done');els[i].classList.add('done');
+      matched++;first=null;sfx.good();status();
+      if(matched===6)later(finish,800);
+    }else{
+      lock=true;const f=first;first=null;sfx.soft();status();
+      later(()=>{flip(f,false);flip(i,false);lock=false;},900);
+    }
+  };
+  function finish(){
+    const sun=Math.max(14,40-Math.max(0,moves-6)*3);
+    S.bests.memory=(!S.bests.memory||moves<S.bests.memory)?moves:S.bests.memory;
+    quest('match',1);finishGame('memory',{sun,xp:15});
+    confetti(80);sfx.win();
+    result({color:'var(--t-sun)',big:String(moves),label:'moves to clear the board',
+      msg:moves<=8?'Sharp memory. Hardly a wasted flip.':moves<=12?'Nicely done. Your focus is working.':'Cleared it. Patience wins this one.',
+      rows:[['Pairs matched','6/6'],['Sun earned',sun]],again:memoryPlay});
+  }
+  status();
+}
+
+/* ---- Word Bloom ---- */
+function wordPlay(){
+  openStage('word','Word Bloom');
+  const list=shuffle(S.lang==='ur'?WORDS_URDU:WORDS).slice(0,5);
+  let wi=0,solved=0,earned=0,tiles=[],ans=[],hints=0,state='',msg='';
+  function load(){
+    const w=list[wi][0],letters=graphemes(w);let sh;
+    do{sh=shuffle(letters);}while(sh.join('')===w);
+    tiles=sh.map(ch=>({ch,used:false}));ans=[];hints=0;state='';msg='';draw();
+  }
+  function draw(){
+    const w=list[wi][0],clue=list[wi][1];
+    const slots=graphemes(w).map((_,k)=>ans[k]!==undefined?'<button class="slot filled'+(state==='ok'?' good':'')+'" data-slot="'+k+'">'+tiles[ans[k]].ch+'</button>':'<span class="slot"></span>').join('');
+    sBody.innerHTML='<div class="wmeta" style="--tc:var(--t-leaf)"><span class="tag">Word '+(wi+1)+' of '+list.length+'</span><span class="dim" style="font-weight:800">'+solved+' solved</span></div>'+
+      '<p class="clue">'+esc(clue)+'</p><div class="slots'+(state==='bad'?' shake':'')+'" id="slots">'+slots+'</div><p class="wmsg">'+esc(msg)+'</p>'+
+      '<div class="tiles">'+tiles.map((t,i)=>'<button class="tile" data-tile="'+i+'" '+(t.used?'disabled':'')+'>'+t.ch+'</button>').join('')+'</div>'+
+      '<div class="wbtns"><button class="btn ghost" data-hint '+(hints>=w.length-1||state==='ok'?'disabled':'')+'>Hint</button><button class="btn ghost" data-clear>Clear</button><button class="btn ghost" data-skip>Skip</button></div>';
+    setProg(wi/list.length);
+  }
+  function addTile(i){
+    const w=list[wi][0];
+    if(state==='ok'||!tiles[i]||tiles[i].used||ans.length>=graphemes(w).length) return;
+    tiles[i].used=true;ans.push(i);sfx.tap();state='';msg='';
+    if(ans.length===w.length){
+      const guess=ans.map(x=>tiles[x].ch).join('');
+      if(guess===w){
+        state='ok';msg=S.lang==='ur'?'درست! '+w+'.':'Yes! '+w.charAt(0)+w.slice(1).toLowerCase()+'.';
+        const gain=hints?4:8;earned+=gain;solved++;S.stats.words++;quest('word',1);
+        award(gain,hints?4:6);sfx.good();draw();floatText($('#slots',sBody),'+'+gain+' sun');
+        later(next,1000);return;
+      }
+      state='bad';msg='Not quite. Tap a letter to swap it out.';sfx.soft();
+    }
+    draw();
+  }
+  function removeAt(k){
+    if(state==='ok'||ans[k]===undefined) return;
+    const idx=ans.splice(k,1)[0];tiles[idx].used=false;state='';msg='';draw();
+  }
+  function clearAll(){if(state==='ok') return;tiles.forEach(t=>t.used=false);ans=[];state='';msg='';draw();}
+  function hint(){
+    const w=list[wi][0];
+    const letters=graphemes(w);
+    if(state==='ok'||hints>=letters.length-1) return;
+    hints++;tiles.forEach(t=>t.used=false);ans=[];
+    for(let k=0;k<hints;k++){const j=tiles.findIndex(t=>!t.used&&t.ch===letters[k]);if(j>=0){tiles[j].used=true;ans.push(j);}}
+    state='';msg=hints>1?'Hint: the first '+hints+' letters are placed.':'Hint: the first letter is placed.';sfx.tap();draw();
+  }
+  function next(){wi++;if(wi>=list.length)finish();else load();}
+  function finish(){
+    S.bests.word=Math.max(S.bests.word,solved);
+    finishGame('word',{sun:5,xp:8});
+    if(solved>=4){confetti(90);sfx.win();}
+    result({color:'var(--t-leaf)',big:solved+'/'+list.length,label:'words solved',
+      msg:solved>=4?'A real wordsmith. Your vocabulary is blooming.':solved>=2?'Good work. A few more rounds and these will feel easy.':'Every word you saw is now a little more familiar.',
+      rows:[['Sun earned',earned+5]],again:wordPlay});
+  }
+  sBody.onclick=e=>{
+    const t=e.target.closest('[data-tile]');if(t){addTile(+t.dataset.tile);return;}
+    const s=e.target.closest('[data-slot]');if(s){removeAt(+s.dataset.slot);return;}
+    if(e.target.closest('[data-hint]'))hint();
+    else if(e.target.closest('[data-clear]'))clearAll();
+    else if(e.target.closest('[data-skip]')){sfx.tap();next();}
+  };
+  listen(document,'keydown',e=>{
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    if(/^[a-zA-Z]$/.test(e.key)){
+      const ch=S.lang==='ur'?e.key:e.key.toUpperCase(),j=tiles.findIndex(t=>!t.used&&t.ch===ch);
+      if(j>=0)addTile(j);
+    }else if(e.key==='Backspace'&&ans.length){e.preventDefault();removeAt(ans.length-1);}
+  });
+  load();
+}
+
+/* ---- Pop the Worries ---- */
+function popPlay(){
+  openStage('pop','Pop the Worries');
+  let t=30,pops=0,earned=0;
+  sBody.innerHTML='<div class="pophud"><span id="ptime">30s</span><span id="pcount">0 let go</span></div><div class="field" id="field"><div class="field-hint">Tap a worry to let it go</div></div>';
+  const f=$('#field',sBody);
+  f.style.setProperty('--h',(f.clientHeight+260)+'px');
+  function spawn(){
+    const size=84+rand(42),w=f.clientWidth||320;
+    const b=document.createElement('button');
+    b.className='bub';
+    b.style.cssText='left:'+Math.max(2,Math.random()*(100-size/w*100))+'%;width:'+size+'px;height:'+size+'px;--dur:'+(5+Math.random()*3)+'s;--c:'+pick(TILE_COLORS);
+    b.innerHTML='<span class="bub-in">'+esc(pick(S.lang==='ur'?WORRIES_URDU:WORRIES))+'</span>';
+    b.addEventListener('animationend',ev=>{if(ev.target===b)b.remove();});
+    f.appendChild(b);
+  }
+  function popIt(b){
+    if(!b||b.dataset.p) return;
+    b.dataset.p='1';b.classList.add('popped');
+    const c=getComputedStyle(b).getPropertyValue('--c');
+    for(let k=0;k<8;k++){const s=document.createElement('i');s.className='sp';s.style.setProperty('--a',(k*45)+'deg');s.style.setProperty('--c',c);b.appendChild(s);}
+    setTimeout(()=>b.remove(),450);
+    pops++;S.stats.pops++;quest('pop',1);sfx.pop();
+    if(earned<40){earned++;award(1,1);floatText(b,'+1');}else{save();}
+    $('#pcount',sBody).textContent=pops+' let go';
+  }
+  listen(f,'pointerdown',e=>popIt(e.target.closest('.bub')));
+  listen(f,'click',e=>{if(e.detail===0)popIt(e.target.closest('.bub'));});
+  for(let k=0;k<3;k++)later(spawn,k*350);
+  every(spawn,520);
+  every(()=>{
+    t--;$('#ptime',sBody).textContent=t+'s';setProg((30-t)/30);
+    if(t<=0)finish();
+  },1000);
+  function finish(){
+    stopActive();
+    S.bests.pop=Math.max(S.bests.pop,pops);
+    finishGame('pop',{sun:5,xp:10});
+    if(pops>=15){confetti(80);sfx.win();}
+    active={id:'pop',timers:[],off:[]};
+    result({color:'var(--t-bloom)',big:String(pops),label:'worries let go',
+      msg:pops>=20?'Deep breath out. The sky looks clearer already.':pops>=8?'Good release. Notice how your shoulders feel.':'Even a few pops count. Unpopped worries drifted off by themselves.',
+      rows:[['Sun earned',earned+5]],again:popPlay});
+  }
+}
+
+/* ---- Slow Breath ---- */
+function breathePlay(){
+  openStage('breathe','Slow Breath');
+  const cycles=5,plan=[['Breathe in',4000,1,440],['Hold',2000,1,0],['Breathe out',6000,.55,330]];
+  sBody.innerHTML='<div class="orb-wrap"><div class="orb" id="orb"></div><div class="orb-label" id="olab">Get comfortable</div></div><p class="orb-count" id="ocount"> </p><div class="wbtns"><button class="btn ghost" data-end>End early</button></div>';
+  const orb=$('#orb',sBody),lab=$('#olab',sBody),cnt=$('#ocount',sBody);
+  let c=0,ph=0;
+  sBody.onclick=e=>{if(e.target.closest('[data-end]'))closeStage();};
+  function step(){
+    if(c>=cycles){finish();return;}
+    const p=plan[ph];
+    orb.style.transitionDuration=p[1]+'ms';orb.style.transform='scale('+p[2]+')';orb.style.opacity=String(.45+p[2]*.55);
+    lab.textContent=p[0];cnt.textContent='Breath '+(c+1)+' of '+cycles;
+    if(p[3])tone(p[3],.6,'sine',.03);
+    setProg((c*plan.length+ph)/(cycles*plan.length));
+    later(()=>{ph++;if(ph>=plan.length){ph=0;c++;}step();},p[1]);
+  }
+  later(step,900);
+  function finish(){
+    S.bests.breathe++;S.stats.breaths++;quest('breathe',1);
+    finishGame('breathe',{sun:20,xp:20});sfx.win();
+    result({color:'var(--t-lav)',big:'5',label:'slow breaths',msg:'Shoulders down, jaw loose. That was one minute you gave back to yourself.',rows:[['Sun earned',20]],again:breathePlay});
+  }
+}
+
+const GAMES={
+  quiz:{name:'Brain Snacks',tag:'Knowledge',mins:'2 min',color:'var(--t-sky)',icon:ICON.quiz,blurb:'Six bite-size questions on research, business, tech, and learning. No timer. Every answer comes with a quick explanation.',intro:quizIntro,play:()=>quizPlay('mixed')},
+  memory:{name:'Concept Pairs',tag:'Focus',mins:'2 min',color:'var(--t-sun)',icon:ICON.memory,blurb:'Match each term with its meaning. Peek once if you get stuck.',intro:()=>simpleIntro('memory'),play:memoryPlay},
+  word:{name:'Word Bloom',tag:'Vocabulary',mins:'3 min',color:'var(--t-leaf)',icon:ICON.word,blurb:'Unscramble five academic words from a clue. Ask for a hint whenever you like.',intro:()=>simpleIntro('word'),play:wordPlay},
+  pop:{name:'Pop the Worries',tag:'Stress relief',mins:'30 sec',color:'var(--t-bloom)',icon:ICON.pop,blurb:'Tap worries as they float up. The ones you miss drift away on their own.',intro:()=>simpleIntro('pop'),play:popPlay},
+  breathe:{name:'Slow Breath',tag:'Calm',mins:'1 min',color:'var(--t-lav)',icon:ICON.breathe,blurb:'Five slow breaths. Follow the circle and let your shoulders drop.',intro:()=>simpleIntro('breathe'),play:breathePlay}
+};
+
+/* ================= events + boot ================= */
+let started=false;
+function guideMessage(text,kind,actions){
+  const log=$('#guideLog'),msg=document.createElement('div');
+  msg.className='guide-msg'+(kind==='user'?' user':'');msg.textContent=text;log.appendChild(msg);
+  if(actions&&actions.length){const row=document.createElement('div');row.className='guide-actions';actions.forEach(a=>{
+    const b=document.createElement('button');b.type='button';b.textContent=a.label||a.ask||'Ask';
+    if(a.go)b.dataset.go=a.go;if(a.game){b.dataset.act='launch';b.dataset.g=a.game;}if(a.url)b.dataset.externalUrl=a.url;
+    if(a.ask)b.dataset.guideQuestion=a.ask;row.appendChild(b);
+  });log.appendChild(row);}
+  log.scrollTop=log.scrollHeight;
+}
+function guideReply(raw){
+  const q=raw.toLowerCase(),go=(label,v)=>({label,go:v}),game=(label,v)=>({label,game:v});
+  if(S.lang==='ur'){
+    if(/سلام|ہیلو|السلام|کیسے ہیں/.test(q))return {text:'سلام'+(S.name?'، '+S.name:'')+'! میں کھیل، باغ، مزاج، انعامات اور ترتیبات سمجھا سکتا ہوں۔ آپ کس چیز سے شروع کرنا چاہیں گے؟',actions:[go('کھیل دکھائیں','play'),go('باغ کھولیں','garden')]};
+    if(/باغ|پودا|پودے|پھول|پانی|بیج/.test(q))return {text:'باغ میں خالی جگہ چھو کر بیج لگائیں، پھر پودے کو چھو کر پانی دیں۔ پورا کھلا پھول روز ایک بار جمع کیا جا سکتا ہے۔',actions:[go('باغ کھولیں','garden')]};
+    if(/سانس|سکون|پریشان|تناؤ|فکر/.test(q))return {text:'سکون کے لیے آہستہ سانس کی پانچ مشقیں کریں، یا تیرتی پریشانیوں کو چھو کر جانے دیں۔',actions:[game('آہستہ سانس','breathe'),game('پریشانیاں چھوڑیں','pop')]};
+    if(/کوئز|سوال|دماغی سوال|تحقیق|کاروبار/.test(q))return {text:'دماغی سوالات میں موضوع چنیں، چھ سوال اپنی رفتار سے حل کریں، اور ہر جواب کی آسان وضاحت پڑھیں۔',actions:[game('دماغی سوالات کھیلیں','quiz')]};
+    if(/لفظ|حروف|اشارہ|الفاظ/.test(q))return {text:'لفظوں کے باغ میں اشارہ پڑھیں اور حروف کو درست ترتیب سے چھوئیں۔ مشکل ہو تو اشارہ لیں یا لفظ صاف کرکے دوبارہ شروع کریں۔',actions:[game('لفظوں کا باغ کھیلیں','word')]};
+    if(/جوڑے|یادداشت|تصور|توجہ/.test(q))return {text:'تصور کے جوڑوں میں چھ اصطلاحات کو ان کے مطلب سے ملائیں۔ ضرورت ہو تو ایک بار جھانک سکتے ہیں۔',actions:[game('تصور کے جوڑے کھیلیں','memory')]};
+    if(/مزاج|کیسا محسوس|احساس/.test(q))return {text:'گھر پر آج کے مزاج کے مطابق ایک انتخاب کریں۔ اس سے ملتی جلتی سرگرمی تجویز ہوگی، اور آپ بعد میں انتخاب بدل سکتے ہیں۔',actions:[go('گھر کھولیں','home')]};
+    if(/مشن|انعام|سن|لیول|اعزاز|لڑی/.test(q))return {text:'روزانہ مشن مکمل کرکے سن اور XP حاصل کریں۔ سن سے باغ کے پودے بڑھتے ہیں، XP سے لیول بڑھتا ہے، اور اعزازات اہم کامیابیاں دکھاتے ہیں۔',actions:[go('آج کے مشن','home'),go('اعزازات دیکھیں','me')]};
+    if(/نام|عمر|پروفائل|رازداری|معلومات/.test(q))return {text:'میری جگہ میں نام اور اختیاری عمر کا گروپ بدل سکتے ہیں۔ تاریخِ پیدائش نہیں لی جاتی؛ معلومات اسی براؤزر میں محفوظ رہتی ہیں۔',actions:[go('میری پروفائل','me')]};
+    if(/موسیقی|آواز|ترتیبات/.test(q))return {text:'میری جگہ کی ترتیبات میں تین مدھم موسیقی کے انداز اور ان کی آواز کی سطح منتخب کریں، یا موسیقی بند رکھیں۔',actions:[go('ترتیبات کھولیں','me')]};
+    if(/واٹس ایپ|رابطہ|رائے|تجویز/.test(q))return {text:'اپنی رائے WhatsApp پر بھیجنے کے لیے یہ نجی چیٹ کھولیں؛ پیغام آپ خود بھیجیں گے۔',actions:[{label:'WhatsApp پر رابطہ',url:whatsappUrl('Hi! I have feedback about Mind Bloom.')} ]};
+    return {text:'میں مائنڈ بلوم کے کھیل، باغ، مزاج، مشن اور ترتیبات میں مدد کر سکتا ہوں۔ اپنے سوال کو ذرا دوسرے انداز میں پوچھیں یا نیچے سے کوئی جگہ کھولیں۔',actions:[go('کھیل دیکھیں','play'),go('میری پروفائل','me')]};
+  }
+  if(/\b(hello|hi|hey|good morning|good evening)\b/.test(q))return {text:'Hey'+(S.name?', '+S.name:'')+'! What would make today feel a little easier? I can show you around, find a quick activity, or explain your garden.',actions:[go('Show me around','home'),game('Pick a quick game','quiz')]};
+  if(/\b(breathe|breathing|calm|anxious|stress|relax)\b/.test(q))return {text:'For a gentle reset, Slow Breath guides you through five unhurried breaths. Pop the Worries is another quick way to let some tension go.',actions:[game('Start Slow Breath','breathe'),game('Pop the Worries','pop')]};
+  if(/\b(garden|plants?|flowers?|grow|growing|water|harvest|seeds?)\b/.test(q))return {text:'Your garden grows with sun. Open Garden, tap an empty plot to plant, then tap the growing plant to water it. A fully bloomed flower can be harvested once a day.',actions:[go('Open Garden','garden')]};
+  if(/\b(quiz|brain snacks|learn|question)\b/.test(q))return {text:'Brain Snacks is a short six-question quiz. Pick a topic, answer at your own pace, and each answer comes with an explanation.',actions:[game('Play Brain Snacks','quiz'),go('Browse games','play')]};
+  if(/\b(word|vocabulary|unscrambl)\b/.test(q))return {text:'Word Bloom gives you a clue and scrambled letters. Tap letters in order; use Hint if you get stuck, or Clear to start the word again.',actions:[game('Play Word Bloom','word')]};
+  if(/\b(memory|pairs|match|focus)\b/.test(q))return {text:'Concept Pairs asks you to match six terms with their meanings. You get one Peek if you want a quick reminder.',actions:[game('Play Concept Pairs','memory')]};
+  if(/\b(pop|worr)\b/.test(q))return {text:'Pop the Worries is a 30-second activity. Tap the floating worries to let them drift away; missing one is no problem.',actions:[game('Start Pop the Worries','pop')]};
+  if(/\b(mood|feeling|check.?in)\b/.test(q))return {text:'On Home, choose the mood that fits best today. I use it to suggest a matching activity; you can change it later, and the history stays in this browser.',actions:[go('Go to Home','home')]};
+  if(/\b(quest|reward|sun|xp|level|streak|badge)\b/.test(q))return {text:'Daily quests give sun when you complete and claim them. Sun plants and waters flowers; XP raises your level. Your streak tracks days you play, and badges mark milestones.',actions:[go('See today’s quests','home'),go('View badges','me')]};
+  if(/\b(name|age|profile|private|privacy|data)\b/.test(q))return {text:'You can edit your name and optional age group under Me. No birth date is collected; profile and progress are stored in this browser only.',actions:[go('Open My Profile','me')]};
+  if(/\b(music|sound|audio)\b/.test(q))return {text:'Choose a quiet piano, warm pads or breeze texture and set its volume under Me → Settings. Music is optional and starts only after you enable it.',actions:[go('Open sound settings','me')]};
+  if(/\b(contact|whatsapp|whats app|wapp|suggestion|feedback)\b/.test(q))return {text:'You can reach the creator on WhatsApp. The link opens a private chat and does not send a message until you choose to send it.',actions:[{label:'Open WhatsApp chat',url:whatsappUrl('Hi! I have a question about Mind Bloom.')} ]};
+  return {text:'I’m the friendly Mind Bloom app guide, so I can help with games, your garden, mood check-ins, rewards, and settings. I don’t have a connected AI service for general questions yet, but I can point you to the right part of the app.',actions:[go('Show me the games','play'),go('Open settings','me')]};
+}
+function guideAsk(text){
+  const q=(text||'').trim();if(!q)return;
+  guideMessage(q,'user');const answer=guideReply(q);guideMessage(answer.text,'assistant',answer.actions);
+}
+function toggleGuide(open){
+  const panel=$('#guidePanel'),button=$('#guideLaunch');
+  panel.hidden=!open;button.setAttribute('aria-expanded',String(open));
+  if(open){if(!$('#guideLog').childElementCount){
+    const welcome=S.lang==='ur'?'سلام'+(S.name?'، '+S.name:'')+'! میں مائنڈ بلوم کا رہنما ہوں۔ کسی بھی کھیل یا خصوصیت کے بارے میں پوچھیں:':'Hi'+(S.name?', '+S.name:'')+'! I’m your Mind Bloom guide. Ask me how something works, or try one of these:';
+    const prompts=S.lang==='ur'?[{label:'باغ میں کیا کر سکتا ہوں؟',ask:'باغ میں کیا کر سکتا ہوں؟'},{label:'مجھے سکون کا وقفہ چاہیے',ask:'مجھے سکون کا وقفہ چاہیے'},{label:'مشن کیسے چلتے ہیں؟',ask:'مشن کیسے چلتے ہیں؟'}]:[{ask:'What can I do in the garden?'},{ask:'I need a calm break'},{ask:'How do the quests work?'}];
+    guideMessage(welcome,'assistant',prompts);
+  }$('#guideInput').focus();}
+}
+function applyTheme(){
+  const r=document.documentElement;
+  if(['light','garden','sunrise','dark'].includes(S.theme))r.setAttribute('data-theme',S.theme);else r.removeAttribute('data-theme');
+}
+function welcome(){
+  const ageOptions=[['','Choose age group (optional)'],['under18','Under 18'],['18-24','18–24'],['25-34','25–34'],['35-44','35–44'],['45plus','45+']];
+  modal('<div class="gift" style="background:var(--t-leaf)">'+ICON.garden+'</div><h2>Welcome to Mind Bloom</h2><p>A small garden that grows while you learn, breathe, and let go of the day. Here are 60 sun to plant your first seed.</p><label class="sr" for="nameWel">Your name</label><input class="field-in" id="nameWel" maxlength="20" placeholder="What should we call you?"><label class="profile-field" for="ageWel">Age group (optional)</label><select class="field-in select" id="ageWel">'+ageOptions.map(o=>'<option value="'+o[0]+'">'+o[1]+'</option>').join('')+'</select><label class="profile-field" for="codeWel">Create a 6-digit resume code</label><input class="field-in" id="codeWel" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="6 digits"><label class="profile-field" for="codeConfirm">Confirm your code</label><input class="field-in" id="codeConfirm" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="Enter it again"><p class="note">Your code unlocks this browser’s saved progress. It does not sync between devices.</p><p class="note" id="resumeError" aria-live="polite"></p><button class="btn big" data-act="welcome">Let\'s grow</button>',false);
+}
+function setupResumeCode(){
+  const ageOptions=[['','Choose age group (optional)'],['under18','Under 18'],['18-24','18–24'],['25-34','25–34'],['35-44','35–44'],['45plus','45+']];
+  modal('<div class="gift" style="background:var(--t-leaf)">'+ICON.garden+'</div><h2>Protect your saved garden</h2><p>Your existing level, garden and rewards are still here. Set a resume code to reopen this profile on this browser.</p><label class="profile-field" for="nameWel">Your name</label><input class="field-in" id="nameWel" maxlength="20" value="'+esc(S.name)+'" placeholder="Your name"><label class="profile-field" for="ageWel">Age group (optional)</label><select class="field-in select" id="ageWel">'+ageOptions.map(o=>'<option value="'+o[0]+'"'+(S.ageGroup===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select><label class="profile-field" for="codeWel">Create a 6-digit resume code</label><input class="field-in" id="codeWel" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="6 digits"><label class="profile-field" for="codeConfirm">Confirm your code</label><input class="field-in" id="codeConfirm" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" placeholder="Enter it again"><p class="note">The code works only with progress stored in this browser. It is not cloud backup.</p><p class="note" id="resumeError" aria-live="polite"></p><button class="btn big" data-act="saveResumeCode">Save code and continue</button>',false);
+}
+function resumeProfile(){
+  const ageOptions=[['','Choose age group (optional)'],['under18','Under 18'],['18-24','18–24'],['25-34','25–34'],['35-44','35–44'],['45plus','45+']];
+  modal('<div class="gift" style="background:var(--t-leaf)">'+ICON.garden+'</div><h2>Continue your garden</h2><p>Your level and progress are saved on this browser. Enter your name and resume code to continue.</p><label class="profile-field" for="nameWel">Your name</label><input class="field-in" id="nameWel" maxlength="20" value="'+esc(S.name)+'" placeholder="Your name"><label class="profile-field" for="ageWel">Age group (optional)</label><select class="field-in select" id="ageWel">'+ageOptions.map(o=>'<option value="'+o[0]+'"'+(S.ageGroup===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select><label class="profile-field" for="codeWel">6-digit resume code</label><input class="field-in" id="codeWel" type="password" inputmode="numeric" autocomplete="current-password" maxlength="6" placeholder="Your code"><p class="note" id="resumeError" aria-live="polite"></p><button class="btn big" data-act="resumeProfile">Continue</button><button class="btn ghost" type="button" data-act="recoverResumeCode">Forgot code? Set a new one</button><p class="note">This code only unlocks saved data on this browser. If browser data is cleared, a code alone cannot restore it.</p>',false);
+}
+async function saveResumeCode(isNewProfile){
+  const name=($('#nameWel')||{}).value.trim(),age=(($('#ageWel')||{}).value)||'',code=normalizeCode(($('#codeWel')||{}).value),confirm=normalizeCode(($('#codeConfirm')||{}).value);
+  if(!name){$('#resumeError').textContent='Please enter your name.';return;}
+  if(!/^\d{6}$/.test(code)||code!==confirm){$('#resumeError').textContent='Enter the same 6-digit code in both boxes.';return;}
+  S.name=name;S.ageGroup=age;S.resumeCodeHash=await hashResumeCode(code);S.onboarded=true;
+  if(isNewProfile){S.xp=0;S.sun=60;}
+  save();closeModal();renderHome();sfx.good();
+}
+async function unlockResumeProfile(){
+  const name=(($('#nameWel')||{}).value||'').trim(),age=(($('#ageWel')||{}).value)||'',code=normalizeCode(($('#codeWel')||{}).value);
+  if(normalizeName(name)!==normalizeName(S.name)||await hashResumeCode(code)!==S.resumeCodeHash){$('#resumeError').textContent='Name or code did not match this saved profile. Try again.';applyLanguage($('#modalBody'));return;}
+  if(age)S.ageGroup=age;save();closeModal();renderHome();
+}
+const normalizeName=name=>String(name||'').trim().toLocaleLowerCase();
+function init(){
+  if(started) return;started=true;
+  $('#sunIc').innerHTML=ICON.sun;
+  $('#stageClose').innerHTML=ICON.close;
+  $('#guideIcon').innerHTML=ICON.quiz;$('#guideLaunch').innerHTML=ICON.quiz;$('#guideClose').innerHTML=ICON.close;
+  $('#guideForm button').innerHTML=I('<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>');
+  $('#languageToggle').addEventListener('click',()=>{S.lang=S.lang==='ur'?'en':'ur';save();applyLanguage();render();});
+  $('#guideLaunch').addEventListener('click',()=>toggleGuide($('#guidePanel').hidden));
+  $('#guideClose').addEventListener('click',()=>toggleGuide(false));
+  $('#guideForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#guideInput'),q=input.value;input.value='';guideAsk(q);});
+  $('#tabs').innerHTML=[['home','Home'],['play','Play'],['garden','Garden'],['me','Me']].map(t=>'<button class="tab" data-go="'+t[0]+'"><span class="ti">'+ICON[t[0]]+'</span><span>'+t[1]+'</span></button>').join('');
+  languageObserver.observe(document.body,{childList:true,subtree:true});
+  applyLanguage();applyTheme();fitFx();window.addEventListener('resize',fitFx);
+  updateHud();
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('[data-act],[data-go],[data-plot],[data-guide-question],[data-external-url]');
+    if(a&&a.dataset.externalUrl){window.open(a.dataset.externalUrl,'_blank','noopener,noreferrer');return;}
+    if(!a||a.closest('#stageBody')) return;
+    if(a.dataset.guideQuestion){guideAsk(a.dataset.guideQuestion);return;}
+    if(a.dataset.go){sfx.tap();go(a.dataset.go);return;}
+    if(a.dataset.plot!==undefined){plotAction(+a.dataset.plot);return;}
+    const act=a.dataset.act;
+    if(act==='mood'){const t=dstr();S.mood={date:t,id:+a.dataset.v};S.moods[t]=+a.dataset.v;save();sfx.tap();renderHome();}
+    else if(act==='moodReset'){S.mood=null;save();renderHome();}
+    else if(act==='launch'){sfx.tap();GAMES[a.dataset.g].intro();}
+    else if(act==='buddy')buddyReact();
+    else if(act==='claim')claimQuest(+a.dataset.i);
+    else if(act==='chest')openChest();
+    else if(act==='harvest')harvest();
+    else if(act==='sound'){S.sound=a.dataset.v==='1';save();renderMe();if(S.sound)sfx.tap();}
+    else if(act==='music'){S.music=a.dataset.v==='1';save();if(S.music)startAmbient();else stopAmbient();renderMe();}
+    else if(act==='language'){S.lang=a.dataset.v;save();applyLanguage();renderMe();applyLanguage($('#view-me'));}
+    else if(act==='theme'){S.theme=a.dataset.v;save();applyTheme();renderMe();}
+    else if(act==='changeResumeCode')setupResumeCode();
+    else if(act==='recoverResumeCode')setupResumeCode();
+    else if(act==='resetAsk'){resetAsk=true;renderMe();}
+    else if(act==='resetNo'){resetAsk=false;renderMe();}
+    else if(act==='resetYes'){resetAsk=false;S=defaults();save();applyTheme();updateHud();go('home');welcome();}
+    else if(act==='modalClose')closeModal();
+    else if(act==='welcome')saveResumeCode(true);
+    else if(act==='saveResumeCode')saveResumeCode(false);
+    else if(act==='resumeProfile')unlockResumeProfile();
+  });
+  $('#modal').addEventListener('click',e=>{if(e.target.id==='modal'&&$('#modal').dataset.dismiss==='1')closeModal();});
+  $('#stageClose').addEventListener('click',closeStage);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){if(!$('#modal').hidden&&$('#modal').dataset.dismiss==='1')closeModal();else if(!stage.hidden)closeStage();}
+    if(e.key==='Enter'&&e.target.id==='nameWel'){const b=$('[data-act="welcome"]');if(b)b.click();}
+    if(e.key==='Escape'&&!$('#guidePanel').hidden)toggleGuide(false);
+  });
+  go('home');
+  if(!S.onboarded)welcome();
+  else if(!S.resumeCodeHash)setupResumeCode();
+  else resumeProfile();
+  if(S.music)startAmbient();
+  const t0=Date.now();let nudged=0;
+  setInterval(()=>{
+    const m=Math.floor((Date.now()-t0)/60000);
+    if(m>=25*(nudged+1)){nudged++;toast('You have been here '+m+' minutes. Stretch, sip some water, rest your eyes. Your garden will wait.','good');}
+  },30000);
+}
+function start(d){
+  if(d&&d.state&&typeof d.state==='object')S=Object.assign(defaults(),d.state);
+  init();
+}
+try{if(window.claude&&window.claude.hot&&window.claude.hot.snapshot)window.claude.hot.snapshot(()=>({state:S}));}catch(e){}
+try{
+  if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(start);
+  else start((window.claude&&window.claude.hot&&window.claude.hot.data)||{});
+}catch(e){start({});}
+})();
+</script>
+
+</body></html>
